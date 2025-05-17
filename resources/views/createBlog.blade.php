@@ -4,16 +4,25 @@
 
 <div class="formBlog">
 
+
+
     <form class="blogForm" method="POST" action="/blog/stores" enctype="multipart/form-data">
         @csrf
-
-        <input type="text" name="blogName" minlength="40" placeholder="Enter The Title">
-        <div class="blogDesc"><textarea minlength="40" name="blogDes" placeholder="description" id=""></textarea></div>
-        <!-- <input type="text" name="" placeholder="description"> -->
+        @if ($errors->any())
+        <div class="errorMessage">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        <input type="text" name="blogName" placeholder="Enter The Title" value="{{ old('blogName') }}">
+        <div class="blogDesc">
+            <textarea name="blogDes" id="editor1" minlength="40" placeholder="Description">{{ old('blogDes') }}</textarea>
+        </div>
         <input type="file" name="blogImage">
         <button type="submit">Submit</button>
-
-
         <style>
             .blogForm .blogDesc textarea {
                 width: 90%;
@@ -66,8 +75,11 @@
 
 
     </form>
-</div>
 
+
+
+
+</div>
 
 
 

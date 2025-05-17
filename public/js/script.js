@@ -1,5 +1,39 @@
 
+function display() {
+    const sec = document.querySelector(".sec");
+    const Min = document.querySelector(".Min");
+    const hour = document.querySelector(".Hour");
+    const day = document.querySelector(".day");
 
+    const upcomingDate = new Date('April 17, 2027 12:02:00');
+    const currentDate = new Date();
+    const diff = upcomingDate - currentDate;
+
+    if (diff <= 0) {
+        sec.innerHTML = "00";
+        Min.innerHTML = "00";
+        hour.innerHTML = "00";
+        day.innerHTML = "00";
+        return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / (60 * 60 * 24));
+    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+    const seconds = totalSeconds % 60;
+
+    day.innerHTML = zero(days);
+    hour.innerHTML = zero(hours);
+    Min.innerHTML = zero(minutes);
+    sec.innerHTML = zero(seconds);
+
+    function zero(num) {
+        return num < 10 ? `0${num}` : num;
+    }
+}
+
+setInterval(display, 1000);
 
 // ---------input search-------------
 
@@ -17,48 +51,55 @@ icon.addEventListener('mouseover', (e) => {
 //* ---------gender-------------
 
 
-const image = document.querySelectorAll(".imageGender");
-const gDetails = document.querySelectorAll(".bottomScroll_section");
+const images = document.querySelectorAll(".imageGender");
+const details = document.querySelectorAll(".bottomScroll_section");
+const gen = document.querySelectorAll(".genderScroll img");
 
-function sec(index) {
+// Store selected gender src per index
+const selectedGenderByIndex = new Map();
 
-    gDetails.forEach((dItems, dCount) => {
-        if (index == dCount) {
-            dItems.classList.add("active");
-            remove(dCount);
-        }
-    })
+images.forEach((item, index) => {
+    item.addEventListener("click", () => {
+        images.forEach((img) => img.classList.remove("newClass"));
+        details.forEach((detail) => detail.classList.remove("active"));
 
-}
-let a = 0;
-image.forEach((item, index) => {
-    item.addEventListener("click", (e) => {
         item.classList.add("newClass");
-        if (index >= a) {
+        details[index].classList.add("active");
 
-            sec(index);
-            a = 0;
+        // Restore previously selected gender image (if any)
+        const selectedSrc = selectedGenderByIndex.get(index);
+        const genPhoto = details[index].querySelectorAll(".genderPhoto img");
+        if (selectedSrc && genPhoto.length) {
+            genPhoto.forEach(photo => {
+                photo.src = selectedSrc;
+            });
         }
 
-    })
-})
+        // Attach gender selector only once
+        gen.forEach((imgElement) => {
+            imgElement.onclick = () => {
+                const src = imgElement.src;
+                const currentGenPhoto = details[index].querySelectorAll(".genderPhoto img");
+                currentGenPhoto.forEach(photo => {
+                    photo.src = src;
+                });
+                // Save selected src for this index
+                selectedGenderByIndex.set(index, src);
+            };
+        });
+    });
+});
 
-function remove(dCount) {
-    gDetails.forEach((one, two) => {
 
-        if (dCount != two) {
 
-            image.forEach((three, four) => {
-                if (dCount != four) {
-                    console.log(three);
-                    three.classList.remove("newClass");
-                }
-            })
-            one.classList.remove("active");
-        }
-    })
 
-}
+
+
+
+
+
+
+
 
 // ---------Accordion-------------
 

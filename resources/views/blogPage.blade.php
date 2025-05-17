@@ -24,8 +24,6 @@
                 <p>{{$myBlogs->description}}</p>
             </div>
         </div>
-
-
     </a>
     @endforeach
 </div>

@@ -13,130 +13,107 @@
 
 
 <div class="jewelsDetails">
-    <div class="filterSection">
-        <div class="filterHead">
-            <h1>Filter</h1>
-            <i onclick="fun('All')" class="fa-plus"></i>
-        </div>
-        <div class="filterDetails">
 
 
-
-
-            <div class="subArea">
-
-                <div class="head2">
-                    <span class="title">Price Range</span>
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="subSec">
-                    <div class="checkbox">
-
-
-                        <input type="checkbox" id="Women">
-                    </div>
-                    <div class="checkName">
-                        <label for="men">Men</label>
-
-                    </div>
-                </div>
+    <form action="{{ route('views.allJewelry') }}" method="get">
+        <div class="filterSection">
+            <div class="filterHead">
+                <h1>Filter</h1>
+                <a class="allBtn" href="{{ route( 'views.allJewelry') }}" style=" text-decoration: none;">
+                    All
+                </a>
             </div>
 
-            <div class="subArea">
+            <div class="filterDetails">
+                <div class="subArea">
 
-                <div class="head2">
-                    <span class="title">Material</span>
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="subSec">
-                    <div class="checkbox">
-                        <input type="checkbox" id="gold">
-
-                        <input type="checkbox" id="Diamond">
+                    <div class="head2">
+                        <span class="title">Price Range</span>
+                        <i class="fa-solid fa-plus"></i>
                     </div>
-                    <div class="checkName">
-                        <label for="gold">Gold</label>
-                        <label for="Diamond">Diamond</label>
-                    </div>
-                </div>
-            </div>
-            <div class="subArea">
-
-                <div class="head2">
-                    <span class="title">All Jewellerys</span>
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="subSec">
-                    <div class="checkbox">
-                        <input type="checkbox" id="Ring">
-
-                        <input type="checkbox" id="Chain">
-                        <input type="checkbox" id="Necklace">
-                        <input type="checkbox" id="Earrings">
-
-                    </div>
-                    <div class="checkName">
-                        <label for="Ring">Ring</label>
-                        <label for="Chain">Chain</label>
-                        <label for="Necklace">Necklace</label>
-                        <label for="Earrings">Earrings</label>
+                    <div class="subSec">
+                        <div class="checkbox">
 
 
+                            <input type="checkbox" name="price[]" value="0-500">
+                            <input type="checkbox" name="price[]" value="500-1000">
+                            <input type="checkbox" name="price[]" value="1000-1500">
+                        </div>
+                        <div class="checkName">
+                            <label for="men">0-500</label>
+                            <label for="men">500-1000</label>
+                            <label for="men">1000-1500</label>
+
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="subArea">
 
-            <div class="subArea">
-
-                <div class="head2">
-                    <span class="title">Occasion</span>
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="subSec">
-                    <div class="checkbox">
-                        <input onclick="fun('Casual')" type="checkbox" id="Casual">
-
-                        <input onclick="fun('Traditional')" type="checkbox" id="Traditional">
-                        <input onclick="fun('Trendy')" type="checkbox" id="Trendy">
-                        <input onclick="fun('Wedding')" type="checkbox" id="Wedding">
-                        <input onclick="fun('Work Wear')" type="checkbox" id="WorkWear">
-                        <input onclick="fun('Casual Wear')" type="checkbox" id="Casual Wear">
+                    <div class="head2">
+                        <span class="title">Material</span>
+                        <i class="fa-solid fa-plus"></i>
                     </div>
-                    <div class="checkName">
-                        <label class="fitCheck" for="Casual">Casual</label>
-                        <label class="fitCheck" for="Traditional">Traditional</label>
-                        <label class="fitCheck" for="Trendy">Trendy</label>
-                        <label class="fitCheck" for="Wedding">Wedding</label>
-                        <label class="fitCheck" for="WorkWear">Work Wear</label>
-                        <label class="fitCheck" for="Casual Wear">Casual Wear</label>
+                    <div class="subSec">
+                        <div class="checkbox">
+                            <input type="checkbox" name="material[]" value="Gold" id="gold">
+                            <input type="checkbox" name="material[]" value="Diamond" id="Diamond">
+                            <input type="checkbox" name="material[]" value="Platinum" id="Platinum">
+                        </div>
+                        <div class="checkName">
+                            <label for="gold">Gold</label>
+                            <label for="Diamond">Diamond</label>
+                            <label for="platinum">Platinum</label>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="subArea">
 
-
-            <div class="subArea">
-
-                <div class="head2">
-                    <span class="title">Gender</span>
-                    <i class="fa-solid fa-plus"></i>
-                </div>
-                <div class="subSec">
-                    <div class="checkbox">
-                        <input type="checkbox" id="kids">
-
-                        <input type="checkbox" id="female">
-                        <input type="checkbox" id="Male">
+                    <div class="head2">
+                        <span class="title">All Jewellerys</span>
+                        <i class="fa-solid fa-plus"></i>
                     </div>
-                    <div class="checkName">
-                        <label for="kids">Kids</label>
-                        <label for="female">Female</label>
-                        <label for="Male">Male</label>
+                    <div class="subSec">
+                        <div class="checkbox">
+                            <input type="checkbox" name="category[]" value="Ring" id="Ring">
+                            <input type="checkbox" name="category[]" value="Chain" id="Chain">
+                            <input type="checkbox" name="category[]" value="Necklace" id="Necklace">
+                            <input type="checkbox" name="category[]" value="Earnings" id="Earnings">
+
+
+                        </div>
+                        <div class="checkName">
+                            <label for="Ring">Ring</label>
+                            <label for="Chain">Chain</label>
+                            <label for="Necklace">Necklace</label>
+                            <label for="Earrings">Earrings</label>
+
+
+                        </div>
                     </div>
                 </div>
+                <div class="subArea">
+
+                    <div class="head2">
+                        <span class="title">Gender</span>
+                        <i class="fa-solid fa-plus"></i>
+                    </div>
+                    <div class="subSec">
+                        <div class="checkbox">
+                            <input type="checkbox" name="gender[]" value="Male " id="Male">
+                            <input type="checkbox" name="gender[]" value="Female" id="Female">
+                            <input type="checkbox" name="gender[]" value="Kids" id="kids">
+                        </div>
+                        <div class="checkName">
+                            <label for="Male">Male</label>
+                            <label for="female">Female</label>
+                            <label for="kids">Kids</label>
+                        </div>
+                    </div>
+                </div>
+                <button class="allBtn" type="submit">Submit</button>
             </div>
         </div>
-    </div>
-
+    </form>
     <div class="leftContent">
         <div class="flexLeft">
             <div class="hrLine">
@@ -148,17 +125,20 @@
                         Alua Jewellery is India's leading online gold jewelry store gives the finest designs
                         in Gold Bangles.</p>
 
-                    <a href="/wish/addWishlist" class="addCard"><button>New card</button></a>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            const dashboardContent = document.getElementById('newCart');
+                            if (dashboardContent) {
+                                dashboardContent.style.display = 'block';
+                            }
+                        });
+                    </script>
+                    @if ($packageUser && in_array($packageUser->plan_id, [1,2, 3]))
 
-
-
-
-
-
-                    <div class=" heartCart">
-                        <i class="fa-solid fa-heart"></i>
-                    </div>
-
+                    <a href="/wish/productDetailAdd" id="newCart" class="addCard">
+                        <button>New card</button>
+                    </a>
+                    @endif
 
 
 
@@ -166,7 +146,12 @@
                 <div class="jewelsImgSec">
 
 
+                    @if ($showWishList->isEmpty())
 
+
+
+                    <h1>no products</h1>
+                    @else
                     @foreach ($showWishList as $showList )
                     <div class="jewelsImageDetails">
                         <div class="jewelsDetailTwo">
@@ -176,17 +161,19 @@
 
 
 
-                                    <div onclick="addWishCart('{{$showList->id}}')" class="whishList">
-                                        <i class="fa-solid whishListIcon fa-heart"></i>
-                                    </div>
 
 
 
 
 
+
+                                    @if (! $packageUser || ! in_array($packageUser->plan_id, [1, 2, 3]))
                                     <div class="addCard">
                                         <div class="addBtn" onclick="addToCart('{{$showList->id}}')"><button>Add to Card</button></div>
                                     </div>
+
+                                    @endif
+
                                 </div>
                             </div>
                             <div class="jewelsPrice ">
@@ -200,6 +187,8 @@
                     </div>
                     @endforeach
 
+
+                    @endif
 
                     <script>
                         function addWishCart(id) {
@@ -266,379 +255,47 @@
 
 
                     <style>
-                        .addCard button {
-                            border: none;
-                            padding: 5px 10px;
-                            border-radius: 5px;
-                        }
 
-
-                        li {
-                            list-style: none;
-                        }
-
-                        .pagination {
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            width: 220px;
-                        }
-
-                        .page-link {
-                            font-size: 13px;
-                            text-decoration: none;
-                            padding: 9px;
-                            background-color: #fff;
-                            border-radius: 6px;
-
-                        }
-
-
-
-                        .jewelsImage:hover a {
-                            opacity: 1;
-                            transition: 1s all;
-                        }
-
-                        .info a:hover {
-                            color: red;
-                        }
-
-                        .whishListIcon {
-                            font-size: 20px;
-                        }
-
-                        /* .whishList {
-                        } */
-                        .info {
-                            display: flex;
-                            height: 200px;
-                            align-items: center;
-                            justify-content: space-between;
-                            flex-direction: column;
-                            position: absolute;
-                            width: 80%;
-                            z-index: 6;
-                        }
-
-                        .jewelsImage .addCard button {
-                            background-color: #5F1107;
-                            border: none;
-                            border-radius: 5px;
-                            color: aliceblue;
-                            padding: 7px 10px;
-                        }
-
-                        .jewelsImage .addCard {
-                            z-index: 3;
-                            /* position: relative; */
-                            color: aqua;
-                            opacity: 0;
-                            display: flex;
-                            transform: translateY(30px);
-                            transition: 1s all;
-                        }
-
-                        .jewelsImage:hover .addCard {
-                            opacity: 1;
-                            transform: translateY(0px);
-                        }
-
-                        .jewelsImageDetails {
-                            display: flex;
-                            align-items: center;
-                            padding-top: 3rem;
-                        }
-
-                        .jewelsDetailTwo {
-                            width: 100%;
-                            height: 100%;
-                        }
-
-                        .add {
-                            display: block;
-                        }
-
-                        .jewelsImage:before {
-                            content: '';
-                            background-color: #5f110733;
-                            width: 250px;
-                            height: 280px;
-                            z-index: 2;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
-                            display: block;
-                            opacity: 0;
-                            transition: 0.5s all;
-                            border-radius: 7px;
-                        }
-
-                        .jewelsImage:hover:before {
-                            opacity: 1;
-                        }
-
-                        .jewelsImage {
-                            position: relative;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            flex-direction: column;
-                        }
-
-                        .wishColor {
-                            color: red;
-                        }
-
-                        .opp {
-                            opacity: 1;
-                        }
-
-                        .info a {
-                            text-decoration: none;
-                            display: flex;
-                            align-items: center;
-                            justify-content: end;
-                            width: 100%;
-                            opacity: 0;
-                            z-index: 5;
-                            color: aliceblue;
-                        }
-
-                        .pagIcons {
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            margin-top: 4rem;
-                        }
                     </style>
-                    <!-- <div class="jewelsImageDetails">
-                        <div class="jewelsDetailTwo">
-                            <div class="jewelsImage">
-                                <img src="/images/jewelsImg/f4.jpg" alt="jewelsOne">
-                                <div class="info">
-                                    <a href="">
-                                        <div class="whishList"><i class="fa-solid whishListIcon fa-heart"></i></div>
-                                    </a>
-                                    <div class="addCard">
-                                        <div class="addBtn"><button>Add to Card</button></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="jewelsPrice ">
-                                <h4>Weight: 3.08 gm</h4>
-                                <h1>$22,600.00</h1>
-                                <p>
-                                    gold ring for men and women WorkWear and Wedding trendy
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="jewelsImageDetails">
-                        <div class="jewelsDetailTwo">
-                            <div class="jewelsImage">
-                                <img src="/images/jewelsImg/f4.jpg" alt="jewelsOne">
-                                <div class="info">
-                                    <a href="">
-                                        <div class="whishList"><i class="fa-solid whishListIcon fa-heart"></i></div>
-                                    </a>
-                                    <div class="addCard">
-                                        <div class="addBtn"><button>Add to Card</button></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="jewelsPrice ">
-                                <h4>Weight: 3.08 gm</h4>
-                                <h1>$22,600.00</h1>
-                                <p>
-                                    gold ring for men and women WorkWear and Wedding trendy
-                                </p>
-                            </div>
-                        </div>
-                    </div> -->
                 </div>
 
             </div>
         </div>
         <div class="pagIcons">
-            {!!$showWishList->links()!!}
+
+            {{ $showWishList->links() }}
         </div>
     </div>
 
 </div>
 
-<script>
-    // let click = document.querySelectorAll(".jewelsImage");
-
-    // click.forEach(ct => {
-    //     let inp = document.querySelector(".info");
-    //     ct.addEventListener("mouseover", () => {
-
-    //         inp.classList.add("add");
-    //     })
-    //     ct.addEventListener("mouseout", () => {
-    //         inp.classList.remove("add");
-    //     })
-
-
-    // })
-
-    const wishList = document.querySelectorAll(".whishListIcon");
-    wishList.forEach((val, index) => {
-        val.addEventListener("click", () => {
-            val.classList.toggle("wishColor");
-            const addWish = document.querySelectorAll(".whishList");
-            addWish.forEach((num, item) => {
-                if (index == item) {
-                    num.classList.toggle("opp");
-                }
-            })
-
-        })
-    })
-
-
-    function fun(val) {
-
-        let check = document.querySelectorAll(".fitCheck");
-        check.forEach(btn => {
-            if (val.toUpperCase() == btn.innerText.toUpperCase()) {
-                console.log(btn.innerHTML);
-
-                btn.classList.toggle("ad");
-                if (btn.classList.contains("ad")) {
-                    classCheck(val);
-
-                    // } else {
-                    //     let check2 = document.querySelectorAll(".jewelsImageDetails");
-                    //     check2.forEach(bt => {
-                    //         if (!btn.classList.contains("ad")) {
-                    //             bt.classList.remove("hide");
-                    //         }
-                    //     })
-                } else {
-                    if (!btn.classList.contains("ad")) {
-                        let check = document.querySelectorAll(".jewelsImageDetails");
-                        check.forEach(bt => {
-                            bt.classList.remove("vj");
-                        })
-                    }
-                }
-
-
-            }
-        })
-
-
-
-    }
-
-
-
-    function classCheck(item) {
-        let check = document.querySelectorAll(".jewelsImageDetails");
-        check.forEach(btn => {
-            if (btn.innerHTML.includes(item)) {
-                btn.classList.remove("hide")
-                btn.classList.toggle("vj")
-            } else {
-                if (!btn.classList.contains("vj")) {
-                    btn.classList.add("hide");
-                    checkHide();
-
-                } else {
-                    btn.classList.remove("hide");
-                }
-            }
-
-        })
-
-
-
-    }
-
-
-    function checkHide() {
-
-        let btn = document.querySelectorAll(".jewelsImageDetails");
-        btn.forEach(btn3 => {
-            if (!btn3.classList.contains("vj")) {
-                btn3.classList.add("hide");
-            }
-        })
-    }
-
-
-
-
-    function errorCheck(btn) {
-        let check = document.querySelectorAll(".jewelsImageDetails");
-        check.forEach(bt => {
-            bt.classList.remove("hide");
-        })
-
-
-    }
-
-
-
-
-
-
-
-    // function fun(val) {
-    //     let element = document.querySelectorAll(".jewelsImageDetails");
-
-
-
-
-    //     element.forEach(ele => {
-    //         let check = document.querySelectorAll(".fitCheck");
-    //         check.forEach((item, rag) => {
-
-    //             if (val == "All") {
-    //                 ele.classList.remove("hide");
-
-
-    //             } else {
-
-
-    //                 myfun(rag);
-
-
-
-    //  if (ele.innerHTML.includes(val)) {
-    //  ele.classList.remove("hide");
-    // console.log(ele.innerHTML.includes(val))
-    // } else {
-    //   ele.classList.add("hide");
-    //  console.log(ele.innerHTML.includes(val))
-    //}
-    //             }
-    //         })
-
-    //         function myfun(rags) {
-
-
-    //             check.forEach((inp, out) => {
-    //                 if (rags != out) {
-    //                     inp.classList.toggle("ad");
-    //                 }
-    //             })
-
-
-
-    //         }
-
-    //     })
-
-    // }
-</script>
 
 
 
 
 <style>
+    .allBtn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 7px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+        background-color: #C07000;
+        border: none;
+        width: 100px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        margin-left: 35px;
+    }
+
+
+
+
+
     .j {
         padding-top: 50px;
     }
@@ -806,7 +463,7 @@
 
 
     .navBar {
-        padding: 15px 0px 15px 0px;
+        padding: 5px 0px 5px 0px;
         background-color: #5F1107;
         position: static !important;
     }
@@ -905,6 +562,98 @@
                 ind.querySelector("i").classList.replace("fa-minus", "fa-plus");
             }
         })
+    }
+
+
+
+    const wishList = document.querySelectorAll(".whishListIcon");
+    wishList.forEach((val, index) => {
+        val.addEventListener("click", () => {
+            val.classList.toggle("wishColor");
+            const addWish = document.querySelectorAll(".whishList");
+            addWish.forEach((num, item) => {
+                if (index == item) {
+                    num.classList.toggle("opp");
+                }
+            })
+
+        })
+    })
+
+
+    function fun(val) {
+
+        let check = document.querySelectorAll(".fitCheck");
+        check.forEach(btn => {
+            if (val.toUpperCase() == btn.innerText.toUpperCase()) {
+                console.log(btn.innerHTML);
+
+                btn.classList.toggle("ad");
+                if (btn.classList.contains("ad")) {
+                    classCheck(val);
+
+                } else {
+                    if (!btn.classList.contains("ad")) {
+                        let check = document.querySelectorAll(".jewelsImageDetails");
+                        check.forEach(bt => {
+                            bt.classList.remove("vj");
+                        })
+                    }
+                }
+
+
+            }
+        })
+
+
+
+    }
+
+
+
+    function classCheck(item) {
+        let check = document.querySelectorAll(".jewelsImageDetails");
+        check.forEach(btn => {
+            if (btn.innerHTML.includes(item)) {
+                btn.classList.remove("hide")
+                btn.classList.toggle("vj")
+            } else {
+                if (!btn.classList.contains("vj")) {
+                    btn.classList.add("hide");
+                    checkHide();
+
+                } else {
+                    btn.classList.remove("hide");
+                }
+            }
+
+        })
+
+
+
+    }
+
+
+    function checkHide() {
+
+        let btn = document.querySelectorAll(".jewelsImageDetails");
+        btn.forEach(btn3 => {
+            if (!btn3.classList.contains("vj")) {
+                btn3.classList.add("hide");
+            }
+        })
+    }
+
+
+
+
+    function errorCheck(btn) {
+        let check = document.querySelectorAll(".jewelsImageDetails");
+        check.forEach(bt => {
+            bt.classList.remove("hide");
+        })
+
+
     }
 </script>
 

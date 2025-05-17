@@ -11,20 +11,27 @@
     </div>
 
 
+    {{-- Display success message --}}
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
 
-    @if((Cart::count())==0)
-    <h1>Cart is empty now</h1>
+    {{-- Display error message --}}
+    @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
     @endif
 
 
-    @if (Session::has('success'))
 
-    <h1>{{Session::get('success')}}</h1>
-    @endif
-
-
+    @if(Cart::count() > 0)
+    <!-- show cart -->
 
     <div class="cartSectionTwo">
+
 
 
 
@@ -92,34 +99,291 @@
             </div>
 
             @endforeach
+
+            @php
+            // Get the subtotal and apply any discounts, taxes, and shipping
+            $subtotal = floatval(str_replace(',', '', Cart::subTotal()));
+            $coupon = session('coupon');
+
+            // Initialize discount, tax, and shipping
+            $discounts = 0;
+            $tax = 0;
+            $shipping = 99;
+
+            // Apply discount if coupon exists
+            if ($coupon && isset($coupon['discount_percent'])) {
+            $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+            }
+
+            // Calculate total after discount
+            $disCheck = $subtotal - $discounts;
+
+            // Apply tax and shipping
+            $tax = $disCheck * 0.18;
+            $finalDiscount = $disCheck + $tax + $shipping;
+            @endphp
+
+
+
             <div class="bottomEntry">
                 <div class="finalEntry">
-                    <div>Delivery</div>
+                    <div>Delivery:</div>
                     <div class="off">99rs</div>
                 </div>
                 <div class="finalEntry">
-                    <div>Off !!</div>
+                    <div>Off!!:</div>
                     <div>10%</div>
                 </div>
                 <div class="finalEntry">
-                    <div>GSD%</div>
+                    <div>GSD%:</div>
                     <div>18%</div>
                 </div>
                 <div class="finalEntry">
-                    <div>Total</div>
-                    <div>{{ Cart::count()>0 ?(((Cart::subTotal())-10/100)+18/100)+99 : 00}}</div>
+                    <div>Coupon:</div>
+                    <div>{{ number_format($discounts, 2) }}</div>
+                    <!-- Discounts: ${{ number_format($discounts, 2) }} <br> -->
                 </div>
+                <div class="finalEntry">
+                    <div> Dis Price:</div>
+                    <div>{{ number_format($disCheck, 2) }}</div>
+                    <!-- Discounts: ${{ number_format($discounts, 2) }} <br> -->
+                </div>
+
+
+                <div class="finalEntry">
+                    <div>Total:</div>
+                    <div> {{ number_format($finalDiscount, 2) }}</div>
+
+                    <!-- Display the final total -->
+
+                    <!-- <div>
+                        Subtotal: ${{ number_format($subtotal, 2) }} <br>
+                        Discounts: ${{ number_format($discounts, 2) }} <br>
+                        Discounted Price: ${{ number_format($disCheck, 2) }} <br>
+                        Tax (18%): ${{ number_format($tax, 2) }} <br>
+                        Shipping: ${{ number_format($shipping, 2) }} <br>
+                        Final Total: ${{ number_format($finalDiscount, 2) }}
+                    </div> -->
+                </div>
+
+
             </div>
 
 
             <div class="submitSection">
+                <form action="{{ route('views.applyCoupon') }}" method="POST">
+                    @csrf
+                    <input class="couponInput" type="text" name="coupon_code" placeholder="Please Enter The Coupon Code">
+                    <button class="applyBtn" type="submit">Apply Coupon</button>
+                </form>
 
-                <input class="couponInput" type="text" placeholder="Please Enter The Coupon Code" disabled>
-                <button class="applyBtn">Apply Coupon</button>
-                <button class="checkBtn">Checkout</button>
+                <!-- <a href="/reCheckOnce">
+                    <button class="checkBtn">Checkout</button>
+                </a> -->
+                @if($showModal)
+                <button class="addAddress">ADD ADDRESS</button>
 
+                @elseif(!$showModal)
+
+
+                <form action="{{ route('place.order') }}" method="POST" onsubmit="alert('Your order is packed')">
+                    @csrf
+                    <button type="submit" class="addAddresss">CONTINUE</button>
+                </form>
+
+
+                @endif
             </div>
 
+            <div class="addTrigger">
+                <div class="launcAdd ">
+                    <div class="enterHead">
+                        <h1>Enter Your Details here</h1>
+                    </div>
+                    <div class="enterDetails">
+
+                        <form class="enterAddress" action="{{ route('views.addAddress') }}" method="POST">
+                            @csrf
+                            <input type="text" name="addName" placeholder="Enter Your Name" value="{{ old('addName') }}">
+                            <input type="text" name="addEmail" placeholder="Enter Your Email" value="{{ old('addEmail') }}">
+                            <input type="text" name="addNumber" placeholder="Enter Your Number" value="{{ old('addNumber') }}">
+                            <input type="text" name="addAddress" placeholder="Enter Your Address" value="{{ old('addAddress') }}">
+                            <input type="text" name="addPinCode" placeholder="Enter Your Pincode" value="{{ old('addPinCode') }}">
+
+                            <select name="addPays" class="pays" required>
+                                <option value="">Select The Pays</option>
+                                <option value="COD" {{ old('addPays') == 'COD' ? 'selected' : '' }}>COD</option>
+                            </select>
+
+                            <button class="sumBtn" type="submit">Continue</button>
+                        </form>
+
+
+                        <div class="imageAddress">
+                            <img src="/images/logimg.jpg" alt="login Image">
+                        </div>
+                    </div>
+
+
+                    <button class="closeadd">Close</button>
+                </div>
+            </div>
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const addAdd = document.querySelector('.addAddress');
+                    const addTrigger = document.querySelector('.addTrigger');
+                    const closeAdd = document.querySelector('.closeadd');
+
+                    addAdd.addEventListener('click', () => {
+                        console.log("its click");
+                        addTrigger.classList.add('addActive');
+                    });
+
+                    closeAdd.addEventListener('click', () => {
+                        addTrigger.classList.remove('addActive');
+                    });
+                });
+            </script>
+
+            <style>
+                .sumBtn {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 5px 10px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #fff;
+                    background-color: #5F1107;
+                    border: none;
+                    width: 120px;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease, transform 0.2s ease;
+                    text-decoration: none;
+                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+                }
+
+                .pays {
+                    background-color: #5F1107;
+                    width: 320px;
+                    padding: 10px;
+                    color: #ffff;
+                    border: none;
+                    border-radius: 7px;
+                    outline: none;
+                    font-size: 16px;
+                }
+
+                .enterAddress {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 10px;
+                }
+
+                .enterDetails {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    width: 100%;
+                }
+
+
+
+                .imageAddress {
+                    width: 325px;
+
+                }
+
+                .imageAddress img {
+                    border-radius: 10px;
+                    box-shadow: 0px 4px 28px 0px rgba(0, 0, 0, 0.18);
+                }
+
+                .enterHead {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                }
+
+                .enterAddress input {
+
+                    background-color: #5F1107;
+                    width: 300px;
+                    padding: 10px;
+                    color: #ffff;
+                    border: none;
+                    border-radius: 7px;
+                    outline: none;
+                    font-size: 18px;
+
+                    font-weight: 200;
+                }
+
+
+
+                .launcAdd {
+                    gap: 10px;
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: end;
+                    justify-content: center;
+                    transform: scale(0.7);
+                    transition: transform 0.4s ease;
+                    background-color: aliceblue;
+                    border-radius: 5px;
+                    width: 70%;
+                }
+
+                .closeadd {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 5px 10px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #fff;
+                    background-color: #E7A46A;
+                    border: none;
+                    width: 120px;
+                    border-radius: 0.5rem;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease, transform 0.2s ease;
+                    text-decoration: none;
+                    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+                }
+
+                .addTrigger.addActive {
+                    opacity: 1;
+                    visibility: visible;
+                }
+
+                .addTrigger.addActive .launcAdd {
+                    transform: scale(1);
+                }
+
+                .addTrigger {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    backdrop-filter: blur(5px);
+                    background-color: rgba(0, 0, 0, 0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: opacity 0.4s ease;
+                    z-index: 100;
+                }
+            </style>
 
 
 
@@ -127,7 +391,9 @@
         </div>
 
     </div>
-
+    @else
+    <p>Your cart is empty dude</p>
+    @endif
 
 </div>
 
@@ -163,10 +429,36 @@
         font-size: 16px;
     }
 
-    .checkBtn {
+
+    .addAddress {
+        width: 150px;
+        border: none;
         background-color: #0E286C;
         border-radius: 5px;
+        padding: 10px;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-size: 16px;
     }
+
+    .addAddresss {
+        width: 150px;
+        border: none;
+        background-color: #0E286C;
+        border-radius: 5px;
+        padding: 10px;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+
+
+
+    /* .checkBtn {
+        background-color: #0E286C;
+        border-radius: 5px;
+    } */
 
     .applyBtn {
         margin-right: 10px;
@@ -191,7 +483,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 158px;
+        width: 113px;
         background: transparent;
         padding: 10px;
         border-radius: 5px;
@@ -199,7 +491,7 @@
     }
 
     .finalEntry div:nth-child(2) {
-        font-size: 22px;
+        font-size: 15px;
         font-weight: bold;
     }
 
@@ -380,9 +672,6 @@
                 if (response.status == true) {
                     window.location.href = "{{route('views.cardPage')}}";
                 }
-
-
-
             }
         })
     }

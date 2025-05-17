@@ -9,288 +9,277 @@
 
 <div class="cartSection">
     <div class="headLineText">
-        <h4>My <span style="background-color: #47022C; color: #E19133; padding: 5px; ">Wishlist</span> </h4>
+        <h4>My <span style="background-color: #47022C; color: #E19133; padding: 5px; ">Order</span> </h4>
     </div>
 
 
 
-    @if (Session::has('success'))
 
-    <h1>{{Session::get('success')}}</h1>
-    @endif
-    <div class="cartSectionTwo">
-        <div class="topDetails">
+    <div id="invoiceContents" class="cartSectionTwo">
+        <div class="topDetailsCheck">
 
-
-
-            @foreach ($cartContent1 as $item )
-
-
-
-
-            <div class="cartDetails">
-                <div class="cartDetailsTwo">
-
-                    <div class="cartImageDetails">
-
-                        <!-- <div class="cartHeadings">
-                            <h2>S/no:{{Cart::count();}}</h2>
-                        </div> -->
-
-                        <div class="cartImage"><img src="/images/card1.png" alt="one"></div>
-                        <div class="cartHeadings">
-                            <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{$item->name}}</div>
-                            <div style="font-size:16px;color: #5f11076c;">Original Price: {{$item->price}}</div>
-                        </div>
-                    </div>
-                    <div class="divTwo">
-                        <div class="cartQuantity">
-                            <div style="font-size:24px; color: #5F1107;">{{$item->price}}</div>
-                        </div>
-                        <div onclick="delateCart2('{{$item->rowId}}');"><i class="fa-solid fa-trash"></i></div>
-
-                        <button class="checkBtn">Add cart</button>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+            <h1>INVOICE</h1>
         </div>
 
 
+        <div class="checkTwo">
+            <div class="backCheck">
+                <div class="logoImageCheck">
+                    <img src="/images/logo.png" alt="logo">
+                </div>
+            </div>
+            <div class="addressDetail">
+                <h3>ALUA Jewels </h3>
+                <p> 16/w, CSI Church
+                    Street , Coimbatore </p>
+                <a href="tel:8270241319">8270241319</a>
+            </div>
+        </div>
+        <div class="checkLine"></div>
+        <div class="checkAddressSection">
+            <div class="AddressCheckHead">
 
+                <h1>Customer Details</h1>
+            </div>
+
+            <div class="checkDetatilsAddress">
+                @if ($addresses)
+
+
+                <div class="checkCol1">
+                    <div class="AddressField">
+                        <h1>Vijay</h1>
+                        <h6>{{ $addresses->name }}</h6>
+                    </div>
+                    <div class="AddressField">
+                        <h1>Email</h1>
+                        <h6>{{ $addresses->email }}</h6>
+                    </div>
+                    <div class="AddressField">
+                        <h1>Number</h1>
+                        <h6>{{ $addresses->phone_number }}</h6>
+                    </div>
+                </div>
+
+                <div class="checkCol2">
+                    <div class="AddressField">
+                        <h1>Address</h1>
+                        <h6>{{ $addresses->address }}</h6>
+                    </div>
+                    <div class="AddressField">
+                        <h1>pin code</h1>
+                        <h6>{{ $addresses->pincode }}</h6>
+                    </div>
+                    <div class="AddressField">
+                        <h1>Payment Type</h1>
+                        <h6>{{ $addresses->payment_type}}</h6>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+        <div class="checkLine"></div>
+        <div class="AddressCheckHead">
+
+            <h1>Customer Details</h1>
+        </div>
+
+        <div class="checkCart">
+
+
+            @foreach ($cartContent as $whishList )
+
+
+
+            <div class="checkCartTwo">
+                <div class="cartImageDetails">
+                    <div class="cartImage"><img src="/images/wishImg/{{ $whishList->image}}" alt="one"></div>
+                    <div class="cartHeadings">
+                        <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{ $whishList->orderUser }}</div>
+                        <div style="font-size:16px;color: #5f11076c;">Original Price:{{ $whishList->OrderPrice }} </div>
+                    </div>
+                </div>
+                <div class="divTwo">
+                    <div class="cartQuantityDet">
+
+
+
+
+                        <p class="cartQuantityNum">Qty:{{ $whishList->orderQty  }}</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <div style="font-size:24px;">{{ $whishList->orderQty* $whishList->OrderPrice }}</div>
+                    </div>
+
+
+                </div>
+            </div>
+            @endforeach
+
+
+
+
+
+        </div>
+
+
+        @php
+        // Initialize subtotal
+        $subtotal = 0;
+
+        // Safely sum up finalPrice values
+        foreach ($cartContent as $item) {
+        $price = floatval(str_replace(',', '', $item->finalPrice ?? 0));
+        $subtotal += $price;
+        }
+
+        // Get coupon session
+        $coupon = session('coupon');
+
+        // Initialize values
+        $discounts = 0;
+        $tax = 0;
+        $shipping = 99;
+
+        // Apply discount if coupon exists
+        if ($coupon && isset($coupon['discount_percent'])) {
+        $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+        }
+
+        // Subtotal after discount
+        $disCheck = $subtotal - $discounts;
+
+        // Apply tax (18%) and shipping
+        $tax = $disCheck * 0.18;
+        $finalDiscount = $disCheck + $tax + $shipping;
+        @endphp
+
+        <div class="bottomEntry">
+            <div class="finalEntry">
+                <div>Total:</div>
+                <div>{{ number_format($finalDiscount, 2) }}</div>
+            </div>
+        </div>
+
+
+        <style>
+            .AddressCheckHead h1 {
+                text-align: start;
+            }
+
+
+            .AddressField h1 {
+                font-size: 18px;
+                color: #47022C;
+            }
+
+            .AddressField h6 {
+                font-size: 14px;
+                color: #0d0d0dcf;
+            }
+
+            .navBar {
+                padding: 15px 0px 15px 0px;
+                background-color: #47022C;
+                position: static !important;
+            }
+
+            .footerContents {
+
+                background-color: #47022C !important;
+
+
+            }
+
+
+            .AddressField {
+
+                display: flex;
+                flex-direction: column;
+                align-items: self-start;
+            }
+
+            .addressField {
+                display: flex;
+                flex-direction: column;
+                align-items: self-start;
+            }
+
+            .checkCol1,
+            .checkCol2 {
+                display: flex;
+                flex-direction: column;
+                align-items: self-start;
+                gap: 12px;
+            }
+
+            .checkAddressSection {
+                width: 100%;
+                display: grid;
+                gap: 15px;
+            }
+
+            .checkDetatilsAddress {
+                display: flex;
+                align-items: self-start;
+                width: 100%;
+            }
+
+            .checkLine {
+                width: 100%;
+                border: 1px solid black;
+            }
+
+
+            .backCheck {
+                background-color: #47022c;
+                padding: 10px;
+                border-radius: 5px;
+            }
+
+            .logoImageCheck {
+                width: 90px;
+            }
+        </style>
 
 
     </div>
+    <div class="downLoadCheck">
+        <h1 style="color: green;">Your order has been placed successfully and will arrive soon. Thank you for shopping with us!</h1>
+        <div class="downBtn">
+            <a href="{{ route('dashboard.showAddress') }}">
+                <button class="dashPage">Go to Dashboard</button>
+            </a>
 
+            <a href="{{ route('download-invoice') }}">
+                <button class="downloadBtn">Download Invoice </button>
+            </a>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
 </div>
 
-
-<script>
-    function delateCart2(rowId) {
-
-        if (confirm('are you want to delate your wishlist')) {
-
-            $.ajax({
-                url: '{{route("views.deleteCart2")}}',
-                type: 'post',
-                data: {
-                    rowId: rowId
-
-                },
-                dataType: 'JSON',
-                success: function(response) {
-
-
-                    if (response.status == true) {
-                        window.location.href = '{{route("views.addWishlist")}}';
-                    }
-
-
-
-                }
-            })
-        }
-
-
-
-
-    }
-</script>
-
-<style>
-    .headLineText {
-        display: flex;
-        align-items: start;
-        width: 77%;
-    }
-
-
-    .submitSection {
-        display: flex;
-        margin-top: 20px;
-    }
-
-    .couponInput {
-        width: 300px;
-        padding: 10px;
-        border: none;
-    }
-
-    .checkBtn {
-        width: 180px;
-        border: none;
-        background-color: #47022C;
-        padding: 10px;
-        color: #E19133;
-        font-size: 16px;
-        border-radius: 5px;
-    }
-
-
-
-    .applyBtn {
-        margin-right: 10px;
-    }
-
-
-    .topDetails {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .bottomEntry {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-
-    }
-
-    .finalEntry {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 158px;
-        background: transparent;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
-    }
-
-
-
-    .cartSectionTwo {
-        display: flex;
-        align-items: end;
-        justify-content: center;
-        flex-direction: column;
-        gap: 20px;
-        width: fit-content;
-        background-color: transparent;
-        padding: 70px;
-        box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
-
-    }
-
-
-
-
-    .divTwo {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        gap: 60px;
-    }
-
-    .cartQuantityNum {
-        font-size: 12px;
-        background-color: #FFFFFF;
-        width: 18px;
-        height: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #5F1107;
-
-
-    }
-
-
-    .cartImage img {
-        border-radius: 5px;
-    }
-
-    .cartImageDetails {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 32px;
-    }
-
-    .cartDetailsTwo {
-        width: 800px;
-        display: flex;
-
-        align-items: center;
-        justify-content: space-between;
-    }
-
-
-    .cartSection {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 50px;
-        margin: 5rem 0rem 7rem 0rem;
-    }
-
-
-    .cartQuantity {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-
-    }
-
-    .cartQuantity .increase,
-    .decrease {
-        background-color: #061E09;
-        width: 22px;
-        height: 22px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        border-radius: 2px;
-        color: white;
-    }
-
-
-
-    .cartDetails {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 901px;
-        height: 200px;
-        background-color: transparent;
-        box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
-    }
-
-
-
-    .navBar {
-        padding: 15px 0px 15px 0px;
-        background-color: #47022C;
-        position: static !important;
-    }
-
-    .footerContents {
-
-        background-color: #47022C !important;
-
-
-    }
-
-    h4 {
-        font-size: 38px;
-        font-weight: normal;
-        color: #5F1107;
-    }
-
-    img {
-        width: 100%;
-        height: 100%;
-    }
-
-    .cartImage {
-        width: 110px;
-        height: 110px;
-    }
-</style>
 
 
 

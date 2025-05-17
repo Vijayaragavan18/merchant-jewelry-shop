@@ -6,33 +6,46 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="/">
-                        <div class="logoImage"><img src="/images/logo.png" alt="logo"></div>
+                        <div class="DashlogoImage"><img src="/images/logo.png" alt="logo"></div>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden dash space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+
+
+
+
             </div>
 
             <style>
-                .dash a {
+                .navHeadDash a {
+                    font-size: 18px;
                     color: aliceblue;
-                    border-color: aliceblue;
+                }
+
+                .navHeadDash {
+                    display: flex;
+                    flex-direction: row;
+                    margin-right: 30px;
+                    align-items: center;
+
                 }
 
 
-                .logoImage img {
+                .navHeadDash a {
+
+                    text-decoration: none;
+                    color: #ffff;
+                }
+
+
+                .DashlogoImage img {
                     width: 50px;
 
                 }
 
                 .bg {
                     background-color: #5F1107;
-                    margin-top: 1rem;
                     padding: 10px 0px;
                 }
 
@@ -48,6 +61,25 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <div class="navHeadDash">
+                    <a class="" href="/">Home</a>
+                </div>
+                <div class="navHeadDash">
+                    <a class="" href="/allJewelry">All jewelry</a>
+
+
+
+                </div>
+                <div class="navHeadDash">
+                    <a class="" href="/blog">Blogs</a>
+                </div>
+                <div class="navHeadDash">
+                    <a class="" href="/card">{{ Cart::count() }}<i class="navIconRight fa-solid fa-cart-shopping"></i></i></a>
+                </div>
+
+
+
+
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bgClr hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
