@@ -13,6 +13,8 @@ use App\models\UserAddress;
 use App\models\blog;
 use App\models\packageUser;
 use App\Models\userOrder;
+use GuzzleHttp\Client;
+use Symfony\Component\DomCrawler\Crawler;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
@@ -23,6 +25,33 @@ class pageController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
+
+
+
+
+
+    // public function GoldPrice()
+    // {
+    //     $url = 'https://www.goodreturns.in/gold-rates/coimbatore.html';
+    //     $client = new Client();
+    //     $response = $client->get($url);
+    //     $html = (string) $response->getBody();
+    //     $crawler = new Crawler($html);
+    //     $rows = $crawler->filter('.gold_silver_table tbody tr')->each(function ($node) {
+    //         return trim($node->text());
+    //     });
+
+
+    //     return view('gold.index', ['prices' => $rows]);
+    // }
+
+
+
+
+
+
 
     public function packagePlanStore($planId, $package)
     {

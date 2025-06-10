@@ -43,11 +43,13 @@
                     </form>
                 </div>
                 <div class="navHead">
-                    <a class="" href="/">Home</a>
-                    <a class="" href="/allJewelry">All jewelry</a>
-                    <a class="" href="/blog">Blogs</a>
+                    <a class=" " href="/">Home</a>
+                    <a class=" " href="/allJewelry">All jewelry</a>
+                    <a class=" " href="/blog">Blogs</a>
+                    <a class=" " href="/about">About As</a>
+                    <a class=" " href="#">Live Price</a>
 
-                    <a class="" href="/about">About As</a>
+
                     <div class="setTwo">
                         <div class="cardShow">
                             <h2 style="color:white">{{ Cart::count() }}</h2>
