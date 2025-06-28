@@ -5,7 +5,11 @@
             <div>Hey {{ Auth::user()->name }}! This is your admin page....</div>
             @else
             <div>Hey {{ Auth::user()->name }}! have a Great day....</div>
+
             @endif
+
+
+
         </h2>
     </x-slot>
 
@@ -18,7 +22,6 @@
 
 
 
-
                     @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
                     <h3>Orders received from users:</h3>
 
@@ -26,33 +29,38 @@
 
                     $subtotal = 0;
 
+                    @endphp
+                    @foreach ($cartContent as $item)
+                    @php
 
-                    foreach ($cartContent as $item) {
-                    $price = floatval(str_replace(',', '', $item->finalPrice ?? 0));
-                    $subtotal += $price;
-                    }
 
+
+
+                    $subtotal += $item->OrderPrice*$item->orderQty;
+
+
+
+
+
+
+                    $off = $subtotal * 0.10;
+                    $offMinus = $subtotal - $off;
+                    $gst = $offMinus * 0.18;
+                    $gstMinus = $offMinus + $gst;
 
                     $coupon = session('coupon');
-
-
                     $discounts = 0;
-                    $tax = 0;
-                    $shipping = 99;
-
 
                     if ($coupon && isset($coupon['discount_percent'])) {
                     $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
                     }
 
+                    $shipping = 99;
+                    $disCheck = ($gstMinus - $discounts) + $shipping;
 
-                    $disCheck = $subtotal - $discounts;
-
-
-                    $tax = $disCheck * 0.18;
-                    $finalDiscount = $disCheck + $tax + $shipping;
                     @endphp
 
+                    @endforeach
 
                     @if ($cartContent->isEmpty())
                     <p>No orders yet.</p>
@@ -60,8 +68,14 @@
                     @foreach ($cartContent as $item)
                     @php
                     $userAddress = $addresses[$item->user_id] ?? null;
-                    @endphp
+                    $calPrice = $item->OrderPrice/9928;
 
+
+
+
+
+                    @endphp
+                    @endforeach
 
 
                     <table style=" width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
@@ -75,35 +89,40 @@
                                 <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Final Price (With Tax%)</th>
                             </tr>
                         </thead>
+                        @foreach ($cartContent as $item)
                         <tbody>
 
                             <tr>
                                 <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->Gender }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
                                     ₹{{ $item->Material }}
                                 </td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->finalPrice }}
+                                    ₹{{ $item->OrderPrice*$item->orderQty }}
                                 </td>
                             </tr>
 
                         </tbody>
+                        @endforeach
+
                         <tfoot>
                             <tr>
                                 <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ number_format($finalDiscount, 2) }}
+                                    ₹{{ number_format($disCheck, 2) }}
                                 </td>
                             </tr>
                         </tfoot>
+
                     </table>
+
 
                     @if ($userAddress)
 
-                    <h4>Address for {{ $item->orderUser }}</h4>
+                    <h4>Address for {{ $userAddress->name }}</h4>
                     <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
                         <thead style="background-color: #f2f2f2;">
                             <tr>
@@ -126,16 +145,16 @@
                                 <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->payment_type }}</td>
                                 <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
                                     @php
-                                    $address = $addresses->first(); // Get first address if it's a collection
+                                    $address = $addresses->first();
                                     @endphp
 
                                     @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
-                                    <!-- Admin -->
+
                                     <button style="padding: 6px 12px; background-color: rgb(145, 255, 0); color: white; text-decoration: none; border-radius: 4px;">
                                         Order Confirm
                                     </button>
                                     @else
-                                    <!-- Normal user -->
+
                                     @if ($address)
                                     <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
                                         Edit
@@ -147,10 +166,12 @@
                         </tbody>
                     </table>
                     @else
+                    @foreach ($cartContent as $item)
                     <p><strong>No address found for user ID {{ $item->user_id }}</strong></p>
+                    @endforeach
                     @endif
 
-                    @endforeach
+
                     @endif
                     @endif
 
@@ -159,7 +180,7 @@
 
 
                     @if (!$packageUser || !in_array($packageUser->plan_id, [1, 2, 3]))
-                    <h3>Your Orders</h3>
+                    <h3>Your All Orders Here</h3>
                     @if ($cartContent->isEmpty())
                     <p>No orders yet.</p>
                     @else
@@ -167,33 +188,37 @@
 
                     $subtotal = 0;
 
+                    @endphp
+                    @foreach ($cartContent as $item)
+                    @php
 
-                    foreach ($cartContent as $item) {
-                    $price = floatval(str_replace(',', '', $item->finalPrice ?? 0));
-                    $subtotal += $price;
-                    }
 
+
+
+                    $subtotal += $item->OrderPrice*$item->orderQty;
+
+
+
+
+
+
+                    $off = $subtotal * 0.10;
+                    $offMinus = $subtotal - $off;
+                    $gst = $offMinus * 0.18;
+                    $gstMinus = $offMinus + $gst;
 
                     $coupon = session('coupon');
-
                     $discounts = 0;
-                    $tax = 0;
-                    $shipping = 99;
-
 
                     if ($coupon && isset($coupon['discount_percent'])) {
                     $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
                     }
 
-
-                    $disCheck = $subtotal - $discounts;
-
-
-                    $tax = $disCheck * 0.18;
-                    $finalDiscount = $disCheck + $tax + $shipping;
+                    $shipping = 99;
+                    $disCheck = ($gstMinus - $discounts) + $shipping;
                     @endphp
 
-
+                    @endforeach
 
 
 
@@ -212,16 +237,20 @@
                         </thead>
                         <tbody>
                             @foreach ($cartContent as $item)
+                            @php
+                            $calPrice = $item->OrderPrice/9928;
+                            @endphp
+
                             <tr>
                                 <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->Gender }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
+                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
                                     ₹{{ $item->Material }}
                                 </td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->finalPrice }}
+                                    ₹{{ $item->OrderPrice*$item->orderQty  }}
                                 </td>
                             </tr>
                             @endforeach
@@ -230,7 +259,7 @@
                             <tr>
                                 <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
                                 <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ number_format($finalDiscount, 2) }}
+                                    ₹{{ number_format($disCheck, 2) }}
                                 </td>
                             </tr>
                         </tfoot>
@@ -264,14 +293,14 @@
                                     @php
                                     $address = $addresses->first();
                                     @endphp
-                                    <!-- --Package admin  -->
+
                                     @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
 
                                     <button style="padding: 6px 12px; background-color: rgb(145, 255, 0); color: white; text-decoration: none; border-radius: 4px;">
                                         Order Confirm
                                     </button>
                                     @else
-                                    <!-- -- Normal user -->
+
                                     @if ($address)
                                     <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
                                         Edit
@@ -471,7 +500,7 @@
 
         .pays {
             background-color: #5F1107;
-            width: 320px;
+            width: 305px;
             padding: 10px;
             color: #ffff;
             border: none;

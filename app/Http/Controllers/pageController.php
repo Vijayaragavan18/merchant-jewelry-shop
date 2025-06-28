@@ -32,19 +32,25 @@ class pageController extends Controller
 
 
 
-    // public function GoldPrice()
+    // public function goldPrice()
     // {
     //     $url = 'https://www.goodreturns.in/gold-rates/coimbatore.html';
+
+    //     // 1. Make HTTP request
     //     $client = new Client();
     //     $response = $client->get($url);
     //     $html = (string) $response->getBody();
+
+    //     // 2. Parse HTML with DomCrawler
     //     $crawler = new Crawler($html);
+
+    //     // 3. Extract table rows
     //     $rows = $crawler->filter('.gold_silver_table tbody tr')->each(function ($node) {
     //         return trim($node->text());
     //     });
 
-
-    //     return view('gold.index', ['prices' => $rows]);
+    //     // 4. Send to view
+    //     return view('views.dashboard', ['prices' => $rows]);
     // }
 
 
@@ -92,7 +98,7 @@ class pageController extends Controller
         ]);
 
         Mail::to(env('MAIL_TO_ADDRESS'))->send(new Enquiry(($data)));
-        return redirect()->back()->with('success', 'sended');
+        return redirect()->back()->with('success', 'Your Query Successfully Sended !');
     }
 
 
@@ -142,7 +148,9 @@ class pageController extends Controller
         $addresses = UserAddress::where('user_id', auth()->id())->latest()->first();
         $cartContent = userOrder::where('user_id', auth()->id())->get();
 
-        $subtotal = floatval(str_replace(',', '', $cartContent->sum('finalPrice')));
+        $subtotal = $cartContent->sum(function ($item) {
+            return floatval(preg_replace('/[^\d.]/', '', $item->finalPrice));
+        });
         $coupon = session('coupon');
         $discounts = $coupon && isset($coupon['discount_percent']) ? ($coupon['discount_percent'] / 100) * $subtotal : 0;
 
@@ -176,52 +184,61 @@ class pageController extends Controller
     {
         $packageUser = packageUser::where('user_id', auth()->id())->first();
 
-        // Base query based on plan
+
         if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3])) {
-            // Gold or Diamond users see only their own jewelry
+
             $query = wishlist::where('user_id', auth()->id());
         } else {
-            // Others see all
+
             $query = wishlist::query();
         }
 
-        // Filtering by gender
+
         if ($request->has('gender') && is_array($request->gender)) {
             $query->whereIn('Gender', $request->gender);
         }
 
-        // Filtering by material
+
         if ($request->has('material') && is_array($request->material)) {
             $query->whereIn('Material', $request->material);
         }
 
-        // Filtering by category
+
         if ($request->has('category') && is_array($request->category)) {
             $query->whereIn('TypeOfJewel', $request->category);
         }
 
-        // Filtering by price
+
         if ($request->filled('price')) {
             $query->where(function ($q) use ($request) {
                 foreach ($request->price as $range) {
-                    [$min, $max] = explode('-', $range);
-                    $q->orWhereBetween('Price', [(int)$min, (int)$max]);
+                    [$minRupee, $maxRupee] = explode('-', $range);
+                    $minGram = (int)$minRupee;
+                    $maxGram = (int)$maxRupee;
+                    if ($maxRupee == '100000') {
+                        $maxGram = PHP_INT_MAX;
+                    }
+                    $q->orWhereBetween('Price', [$minGram, $maxGram]);
                 }
             });
         }
 
-        // Search filter
+
+
+
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('Wish_name', 'LIKE', "%{$search}%")
                     ->orWhere('Description', 'LIKE', "%{$search}%")
+                    ->orWhere('Gender', 'LIKE', "%{$search}%")
                     ->orWhere('TypeOfJewel', 'LIKE', "%{$search}%");
             });
         }
 
-        // Final query with latest and paginate
-        $showWishList = $query->orderBy('updated_at', 'desc')->paginate(10);
+
+        $showWishList = $query->orderBy('updated_at', 'desc')->paginate(9);
 
         return view('allJewelry_page', [
             'showWishList' => $showWishList,
@@ -338,7 +355,7 @@ class pageController extends Controller
             }
         } else {
 
-            // echo "cart is empty now adding a product";
+
 
 
             Cart::add($product2->id, $product2->Wish_name, 1, $product2->Quantity, ["product_image" => $product2->image]);
@@ -352,8 +369,6 @@ class pageController extends Controller
             'status' =>  $status,
             'message' =>  $message
         ]);
-
-        // Cart::add('293ad', 'Product 1', 1, 9.99);
     }
 
 
@@ -372,7 +387,7 @@ class pageController extends Controller
         $code = $request->input('coupon_code');
 
         // Check if the coupon is valid (you can replace this with more advanced logic)
-        if ($code === 'DISCOUNT10') {
+        if ($code === 'ALUA10') {
             // Store the coupon info in the session
             session([
                 'coupon' => [
@@ -735,11 +750,14 @@ class pageController extends Controller
         $imageName = time() . "_wish." . $request->file('addWishImg')->extension();
         $request->file('addWishImg')->move(public_path('images/wishImg'), $imageName);
 
+        $priceCal = round($request->input(key: 'wishPrice') * 9928);
+
+
         // Save to database
         $wishList = new App\models\wishlist;
         $wishList->user_id = auth()->id();
         $wishList->Wish_name = $request->input('wishName');
-        $wishList->Price = $request->input('wishPrice');
+        $wishList->Price = $priceCal;
         $wishList->Description = $request->input('wishDes');
 
         $wishList->Gender = $request->input('Gender');

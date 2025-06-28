@@ -8,15 +8,15 @@
         @csrf
         @method("PATCH")
 
-        <!-- Blog Name -->
+    
         <input type="text" name="blogName" value="{{$create->name}}" placeholder="Enter The Title">
 
-        <!-- Blog Description -->
+      
         <div class="blogDesc">
             <textarea name="blogDes" minlength="40" placeholder="Description">{{$create->description}}</textarea>
         </div>
 
-        <!-- Current Image -->
+       
         @if($create->image)
         <img src="{{ asset('/uploads/'. $create->image) }}" alt="Current Image" style="max-width: 200px;">
         @endif

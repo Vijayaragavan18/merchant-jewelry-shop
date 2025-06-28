@@ -44,13 +44,46 @@
 
     <div class="section">
         <h3>Items</h3>
+        @php
+        $subtotal = 0;
+
+        @endphp
+
+
         @foreach ($cartContent as $item)
-        <p>{{ $item->orderUser }} (Qty: {{ $item->Gender }}) -{{ number_format($item->OrderPrice, 2) }}</p>
+        @php
+
+        $calPrice = $item->OrderPrice/9928;
+        $subtotal += $item->OrderPrice*$item->orderQty;
+
+
+
+
+
+
+
+        $off = $subtotal * 0.10;
+        $offMinus = $subtotal - $off;
+        $gst = $offMinus * 0.18;
+        $gstMinus = $offMinus + $gst;
+
+        $coupon = session('coupon');
+        $discounts = 0;
+
+        if ($coupon && isset($coupon['discount_percent'])) {
+        $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+        }
+
+        $shipping = 99;
+        $disCheck = ($gstMinus - $discounts) + $shipping;
+        @endphp
+
+        <p>{{ $item->orderUser }} (Qty: {{ $item->orderQty }}) {{ $item->OrderPrice*$item->orderQty }}</p>
         @endforeach
     </div>
 
     <div class="section">
-        <h3>Total: {{ number_format($finalDiscount, 2) }}</h3>
+        <h3>Total: {{ number_format($disCheck, 2) }}</h3>
     </div>
 
     <div class="section">

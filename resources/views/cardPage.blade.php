@@ -40,21 +40,28 @@
 
 
         <div class="topDetails">
-
-
+            @php
+            $subtotal = 0;
+            @endphp
 
 
 
 
             @foreach ($cartContent as $item )
             <div class="cartDetails">
-
+                @php
+                $calPrice = $item->price/9928 ;
+                $subtotal += $item->price*$item->qty;
+                @endphp
                 <div class="cartDetailsTwo">
                     <div class="cartImageDetails">
                         <div class="cartImage"><img src="/images/wishImg/{{$item->options->product_image}}" alt="one"></div>
                         <div class="cartHeadings">
                             <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{$item->name}}</div>
-                            <div style="font-size:16px;color: #5f11076c;">Original Price: {{$item->price}}</div>
+
+
+
+                            <div style="font-size:16px;color: #5f11076c;">Original Price: {{ $item->price }}/{{$calPrice}}g</div>
                         </div>
                     </div>
                     <div class="divTwo">
@@ -87,41 +94,41 @@
 
                         </div>
                         <div onclick="delateCart('{{$item->rowId}}');"><i class="fa-solid fa-trash"></i></div>
-                        <div style="font-size:24px;">{{$item->price*$item->qty}}</div>
+                        <div style="font-size:24px;">{{ $item->price*$item->qty }}/{{$calPrice*$item->qty}}g</div>
                     </div>
                 </div>
 
 
+                @php
+
+
+
+
+
+
+                $off = $subtotal * 0.10;
+                $offMinus = $subtotal - $off;
+                $gst = $offMinus * 0.18;
+                $gstMinus = $offMinus + $gst;
+
+                $coupon = session('coupon');
+                $discounts = 0;
+
+                if ($coupon && isset($coupon['discount_percent'])) {
+                $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+                }
+
+                $shipping = 99;
+                $disCheck = ($gstMinus - $discounts) + $shipping;
+                @endphp
 
 
 
 
             </div>
-
             @endforeach
 
-            @php
-            // Get the subtotal and apply any discounts, taxes, and shipping
-            $subtotal = floatval(str_replace(',', '', Cart::subTotal()));
-            $coupon = session('coupon');
 
-            // Initialize discount, tax, and shipping
-            $discounts = 0;
-            $tax = 0;
-            $shipping = 99;
-
-            // Apply discount if coupon exists
-            if ($coupon && isset($coupon['discount_percent'])) {
-            $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
-            }
-
-            // Calculate total after discount
-            $disCheck = $subtotal - $discounts;
-
-            // Apply tax and shipping
-            $tax = $disCheck * 0.18;
-            $finalDiscount = $disCheck + $tax + $shipping;
-            @endphp
 
 
 
@@ -137,33 +144,19 @@
                 <div class="finalEntry">
                     <div>GSD%:</div>
                     <div>18%</div>
+
+
                 </div>
                 <div class="finalEntry">
                     <div>Coupon:</div>
                     <div>{{ number_format($discounts, 2) }}</div>
-                    <!-- Discounts: ${{ number_format($discounts, 2) }} <br> -->
-                </div>
-                <div class="finalEntry">
-                    <div> Dis Price:</div>
-                    <div>{{ number_format($disCheck, 2) }}</div>
-                    <!-- Discounts: ${{ number_format($discounts, 2) }} <br> -->
+
                 </div>
 
 
                 <div class="finalEntry">
                     <div>Total:</div>
-                    <div> {{ number_format($finalDiscount, 2) }}</div>
-
-                    <!-- Display the final total -->
-
-                    <!-- <div>
-                        Subtotal: ${{ number_format($subtotal, 2) }} <br>
-                        Discounts: ${{ number_format($discounts, 2) }} <br>
-                        Discounted Price: ${{ number_format($disCheck, 2) }} <br>
-                        Tax (18%): ${{ number_format($tax, 2) }} <br>
-                        Shipping: ${{ number_format($shipping, 2) }} <br>
-                        Final Total: ${{ number_format($finalDiscount, 2) }}
-                    </div> -->
+                    <div> {{ number_format($disCheck, 2) }}</div>
                 </div>
 
 
@@ -171,15 +164,15 @@
 
 
             <div class="submitSection">
+
+
                 <form action="{{ route('views.applyCoupon') }}" method="POST">
                     @csrf
-                    <input class="couponInput" type="text" name="coupon_code" placeholder="Please Enter The Coupon Code">
+                    <input class="couponInput" type="text" name="coupon_code" placeholder="Please Enter The Coupon 'ALUA10'">
                     <button class="applyBtn" type="submit">Apply Coupon</button>
                 </form>
 
-                <!-- <a href="/reCheckOnce">
-                    <button class="checkBtn">Checkout</button>
-                </a> -->
+
                 @if($showModal)
                 <button class="addAddress">ADD ADDRESS</button>
 
@@ -483,7 +476,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 113px;
+        width: 50%;
         background: transparent;
         padding: 10px;
         border-radius: 5px;

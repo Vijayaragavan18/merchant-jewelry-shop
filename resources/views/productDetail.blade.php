@@ -37,18 +37,18 @@
             @csrf
 
             <input type="text" name="wishName" value="{{ old('wishName') }}" placeholder="Enter The Title">
-            <input type="text" name="wishPrice" value="{{ old('wishPrice') }}" placeholder="Enter The Price">
+            <input type="text" name="wishPrice" value="{{ old('wishPrice') }}" placeholder="Enter The grams">
             <input type="text" name="wishDes" value="{{ old('wishDes') }}" placeholder=" Enter The Description">
 
-            <!-- Gender Dropdown -->
             <select name="Gender">
                 <option value="">Select Gender</option>
+                <option value="All" {{ old('Gender')=='All'?'Selected':'' }}>All</option>
                 <option value="Male" {{ old('Gender')=='Male'?'Selected':'' }}>Male</option>
                 <option value="Female" {{ old('Gender')=='Female'?'Selected':'' }}>Female</option>
                 <option value="Kids" {{ old('Gender')=='Kids'?'Selected':'' }}>Kids</option>
+
             </select>
 
-            <!-- Material Dropdown -->
             <select name="Material">
                 <option value="">Select Material</option>
                 <option value="Gold" {{old('Material')=='Gold'?'Selected':''}}>Gold</option>
@@ -56,13 +56,13 @@
                 <option value="Platinum {{ old('Material')=='Platinum'?'Selected':'' }}">Platinum</option>
             </select>
 
-            <!-- Type of Jewel / Category Dropdown -->
             <select name="TypeOfJewel" required>
                 <option value="">Select Jewelry Type</option>
                 <option value="Ring" {{ old('TypeOfJewel') == 'Ring' ? 'selected' : '' }}>Ring</option>
                 <option value="Chain" {{ old('TypeOfJewel') == 'Chain' ? 'selected' : '' }}>Chain</option>
                 <option value="Necklace" {{ old('TypeOfJewel') == 'Necklace' ? 'selected' : '' }}>Necklace</option>
                 <option value="Earrings" {{ old('TypeOfJewel') == 'Earrings' ? 'selected' : '' }}>Earrings</option>
+                <option value="Others" {{ old('TypeOfJewel') == 'Others' ? 'selected' : '' }}>Others</option>
             </select>
 
             <input type="file" name="addWishImg">

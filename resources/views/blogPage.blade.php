@@ -84,8 +84,10 @@
     }
 
     .blogPost .blogImage {
-        width: 555px;
-        min-height: 450px;
+        width: 347px;
+        height: 376px;
+        display: flex;
+        align-items: center;
 
     }
 

@@ -12,7 +12,8 @@ use App\models\UserAddress;
 use App\Http\Controllers\OrderController;
 use App\Models\userOrder;
 use App\Models\packageUser;
-
+use GuzzleHttp\Client;
+use Symfony\Component\DomCrawler\Crawler;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,9 +60,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/packages', function () {
-    return view('packagePage');
-});
+
 
 
 
@@ -80,6 +79,11 @@ Route::get('/wishlist', '\App\Http\Controllers\pageController@Wishlist_Page');
 Route::get('/blog/{showBlogs}/showBlog', '\App\Http\Controllers\pageController@Show_Blog');
 
 Route::get('/dashboard', function () {
+
+
+
+
+
     $userId = auth()->id();
     $packageUser = PackageUser::where('user_id', $userId)->first();
     $cartContent = collect();
@@ -164,6 +168,11 @@ Route::post('/deleteCart', [pageController::class, 'delateCart2'])->name('views.
 Route::post('/dashboard', [pageController::class, 'dashEdit'])->name('views.dashEdit');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/packages', function () {
+        return view('packagePage');
+    });
+
+
     Route::get('/card', '\App\Http\Controllers\pageController@Cart');
     Route::post('/reCheckOnce', [pageController::class, 'addAddress'])->name('views.addAddress');
     Route::get('/reCheck', [PageController::class, 'reCheck'])->name('views.reCheck');

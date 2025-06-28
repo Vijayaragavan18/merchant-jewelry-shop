@@ -21,10 +21,10 @@
                 <h3>Perfect for beginners launching their first store</h3>
                 <div class="plans">
                     <ol>
-                        <li>&bull; Host up to 20 Products</li>
-                        <li>&bull; Basic Order Management</li>
-                        <li>&bull; Basic Order Management</li>
-                        <li>&bull; Email Support</l1>
+                        <li>&bull; Add to Cart functionality</li>
+                        <li>&bull; Simple product listing and checkout</li>
+                        <li>&bull; No blog support features</li>
+
                     </ol>
                 </div>
                 <h4>$1999/-</h4>
@@ -39,9 +39,9 @@
                 <h3>For growing businesses with more custom needs</h3>
                 <div class="plans">
                     <ol>
-                        <li>&bull; Host up to 200 Products</li>
-                        <li>&bull; Discount Coupons</li>
-                        <li>&bull; Social Media Integration</li>
+                        <li>&bull; Add to Cart functionality </li>
+                        <li>&bull; Add Blogs to share updates</li>
+
                         <li>&bull; Priority Support</l1>
                     </ol>
                 </div>
@@ -59,10 +59,10 @@
                 <h3>Best for serious sellers ready to scale fast</h3>
                 <div class="plans">
                     <ol>
-                        <li>&bull; Unlimited Products</li>
-                        <li>&bull; Advanced Analytics & Reports</li>
-                        <li>&bull; Integrated Shipping</li>
-                        <li>&bull; Dedicated Account Manager</l1>
+                        <li>&bull; Add to Cart functionality</li>
+                        <li>&bull; Add Blogs for better SEO and customer connection</li>
+                        <li>&bull; Technical assistance</li>
+
                     </ol>
                 </div>
                 <h4>$7999/-</h4>

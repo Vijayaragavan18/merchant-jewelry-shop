@@ -60,10 +60,10 @@
                     </div>
                     <div class="blogPost_content">
                         <h1>
-                            {{Str::limit ($myBlogs->name , 20)}}
+                            {{Str::limit ($myBlogs->name , 30)}}
                         </h1>
                         <h5>{{ $myBlogs->updated_at->format('d M Y') }}</h5>
-                        <p>{{ Str::limit($myBlogs->description, 20) }}</p>
+                        <p>{{ Str::limit($myBlogs->description, 35) }}</p>
                     </div>
                 </div>
             </a>
@@ -240,7 +240,10 @@
 
     .blogPost .blogImage {
         width: 347px;
-        height: 42vh;
+        height: 376px;
+        display: flex;
+        align-items: center;
+
 
     }
 

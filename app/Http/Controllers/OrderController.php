@@ -17,25 +17,38 @@ class OrderController extends Controller
     {
 
 
-        $subtotal = floatval(str_replace(',', '', Cart::subTotal()));
+
+        $cartContent = Cart::content();
+        $subtotal = 0;
+        foreach ($cartContent as $item) {
+
+            $subtotal += $item->price * $item->qty;
+        }
+
+
+
+
+
+
+
+
+
+
+        $off = $subtotal * 0.10;
+        $offMinus = $subtotal - $off;
+        $gst = $offMinus * 0.18;
+        $gstMinus = $offMinus + $gst;
+
         $coupon = session('coupon');
-
-        // Initialize discount, tax, and shipping
         $discounts = 0;
-        $tax = 0;
-        $shipping = 99;
 
-        // Apply discount if coupon exists
         if ($coupon && isset($coupon['discount_percent'])) {
             $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
         }
 
-        // Calculate total after discount
-        $disCheck = $subtotal - $discounts;
+        $shipping = 99;
+        $disCheck = ($gstMinus - $discounts) + $shipping;
 
-        // Apply tax and shipping
-        $tax = $disCheck * 0.18;
-        $finalDiscount = $disCheck + $tax + $shipping;
 
 
 
@@ -45,7 +58,7 @@ class OrderController extends Controller
             'name' => auth()->user()->name,
             'email' => auth()->user()->email,
             'items' => [],
-            'total' => number_format($finalDiscount, 2),
+            'total' => number_format($disCheck, 2),
         ];
 
         // foreach (Cart::content() as $item) {
@@ -78,7 +91,7 @@ class OrderController extends Controller
             $order->Material = $item->options['material'] ?? '';
             $order->TypeOfJewel = $item->options['type_of_jewel'] ?? '';
             $order->image = $item->options['product_image'] ?? null;
-            $order->finalPrice = number_format($finalDiscount, 2);
+            $order->finalPrice = number_format($disCheck, 2);
 
             $order->save();
         }
@@ -88,7 +101,7 @@ class OrderController extends Controller
 
         Mail::to($orderData['email'])->send(new OrderPlacedMail($orderData));
 
-        // Clear cart after placing order
+
         Cart::destroy();
 
         return redirect('/check')->with('message', 'Order placed and email sent!');

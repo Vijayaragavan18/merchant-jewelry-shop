@@ -47,7 +47,7 @@
                     <a class=" " href="/allJewelry">All jewelry</a>
                     <a class=" " href="/blog">Blogs</a>
                     <a class=" " href="/about">About As</a>
-                    <a class=" " href="#">Live Price</a>
+                    <a class="livePrice " href="https://www.goodreturns.in/gold-rates/madurai.html">live Price:<span>&#8377;</span>9,928/g </a>
 
 
                     <div class="setTwo">
@@ -77,7 +77,11 @@
             }
 
 
-
+            .livePrice {
+                background-color: #e19133;
+                padding: 5px;
+                border-radius: 2px;
+            }
 
             .navIconRight {
                 font-size: 14px;
@@ -105,12 +109,12 @@
                 const currentPath = window.location.pathname;
 
                 navLinks.forEach(link => {
-                    // Highlight on page load
+
                     if (link.getAttribute("href") === currentPath) {
                         link.classList.add("activeBtn");
                     }
 
-                    // Click handling for single-page behavior
+
                     link.addEventListener('click', () => {
                         navLinks.forEach(l => l.classList.remove('activeBtn'));
                         link.classList.add('activeBtn');
@@ -148,7 +152,7 @@
 
 
                 <div class="copyRightText">
-                    @2024 CopyRight.Alua jewels
+                    @2025 CopyRight.Alua jewels
                 </div>
 
 

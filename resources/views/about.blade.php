@@ -45,14 +45,15 @@
 
 
 <div class="contactInfo">
+    <div class="sucMessage">
 
-    @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+        @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
+
     </div>
-    @endif
-
-
     <div class="aboutHead">
         <h1>GET IN TOUCH!</h1>
     </div>
@@ -71,17 +72,17 @@
                             <div class="responsive-container-block">
                                 <div class="responsive-cell-block wk-ipadp-6 wk-tab-12 wk-mobile-12 wk-desk-6" id="i10mt-6">
                                     <p class="text-blk input-title">FIRST NAME</p>
-                                    <input class="input" id="ijowk-6" name="name">
+                                    <input class="input" id="ijowk-6" name="name" required>
                                 </div>
 
                                 <div class="responsive-cell-block wk-desk-6 wk-ipadp-6 wk-tab-12 wk-mobile-12">
                                     <p class="text-blk input-title">EMAIL</p>
-                                    <input class="input" id="ipmgh-6" name="email" type="email">
+                                    <input class="input" id="ipmgh-6" name="email" type="email" required>
                                 </div>
 
                                 <div class="responsive-cell-block wk-tab-12 wk-mobile-12 wk-desk-12 wk-ipadp-12" id="i634i-6">
                                     <p class="text-blk input-title">WHAT DO YOU HAVE IN MIND</p>
-                                    <textarea class="textinput" id="i5vyy-6" name="messageContent" placeholder="Please enter query..."></textarea>
+                                    <textarea class="textinput" id="i5vyy-6" name="messageContent" placeholder="Please enter query..." required></textarea>
                                 </div>
                             </div>
 
@@ -119,21 +120,21 @@
                                 <div class="mail text-box">
                                     <img class="contact-svg" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/ET23.jpg">
                                     <a href="javascript:void(0)" class="contact-text">
-                                        102 street, y cross 485656
+                                        16/w CSI Church Street Thevaram, Theni
                                     </a>
                                 </div>
                             </div>
                             <div class="social-media-links">
-                                <a href="">
+                                <a href="/">
                                     <img class="social-svg" id="is9ym" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-mail.svg">
                                 </a>
-                                <a href="">
+                                <!-- <a href="">
                                     <img class="social-svg" id="i706n" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-twitter.svg">
-                                </a>
-                                <a href="">
+                                </a> -->
+                                <a href="https://www.instagram.com/imvj.here/">
                                     <img class="social-svg" id="ib9ve" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-insta.svg">
                                 </a>
-                                <a href="">
+                                <a href="https://en.wikipedia.org/wiki/Jewellery">
                                     <img class="social-svg" id="ie9fx" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/gray-fb.svg">
                                 </a>
                             </div>
@@ -146,6 +147,12 @@
 </div>
 
 <style>
+    .sucMessage {
+        text-align: center;
+        color: green;
+        font-size: 22px;
+    }
+
     .contact_us_green .responsive-container-block {
         min-height: 75px;
         height: fit-content;

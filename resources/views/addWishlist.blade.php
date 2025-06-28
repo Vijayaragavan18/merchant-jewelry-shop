@@ -81,14 +81,43 @@
         <div class="checkLine"></div>
         <div class="AddressCheckHead">
 
-            <h1>Customer Details</h1>
+            <h1>Here The All Orders Of Yours</h1>
         </div>
 
         <div class="checkCart">
+            @php
+            $subtotal = 0;
 
+            @endphp
 
             @foreach ($cartContent as $whishList )
+            @php
+            $calPrice = $whishList->OrderPrice/9928;
+            $subtotal += $whishList->OrderPrice*$whishList->orderQty;
 
+
+
+
+
+
+
+            $off = $subtotal * 0.10;
+            $offMinus = $subtotal - $off;
+            $gst = $offMinus * 0.18;
+            $gstMinus = $offMinus + $gst;
+
+            $coupon = session('coupon');
+            $discounts = 0;
+
+            if ($coupon && isset($coupon['discount_percent'])) {
+            $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+            }
+
+            $shipping = 99;
+            $disCheck = ($gstMinus - $discounts) + $shipping;
+
+
+            @endphp
 
 
             <div class="checkCartTwo">
@@ -96,7 +125,7 @@
                     <div class="cartImage"><img src="/images/wishImg/{{ $whishList->image}}" alt="one"></div>
                     <div class="cartHeadings">
                         <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{ $whishList->orderUser }}</div>
-                        <div style="font-size:16px;color: #5f11076c;">Original Price:{{ $whishList->OrderPrice }} </div>
+                        <div style="font-size:16px;color: #5f11076c;">Original Price:{{ $whishList->OrderPrice }}/{{$calPrice}}g </div>
                     </div>
                 </div>
                 <div class="divTwo">
@@ -119,61 +148,36 @@
 
 
 
-                        <div style="font-size:24px;">{{ $whishList->orderQty* $whishList->OrderPrice }}</div>
+                        <div style="font-size:24px;">{{ $whishList->OrderPrice * $whishList->orderQty}}</div>
                     </div>
 
 
                 </div>
             </div>
+
+
             @endforeach
-
-
-
 
 
         </div>
 
 
-        @php
-        // Initialize subtotal
-        $subtotal = 0;
 
-        // Safely sum up finalPrice values
-        foreach ($cartContent as $item) {
-        $price = floatval(str_replace(',', '', $item->finalPrice ?? 0));
-        $subtotal += $price;
-        }
-
-        // Get coupon session
-        $coupon = session('coupon');
-
-        // Initialize values
-        $discounts = 0;
-        $tax = 0;
-        $shipping = 99;
-
-        // Apply discount if coupon exists
-        if ($coupon && isset($coupon['discount_percent'])) {
-        $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
-        }
-
-        // Subtotal after discount
-        $disCheck = $subtotal - $discounts;
-
-        // Apply tax (18%) and shipping
-        $tax = $disCheck * 0.18;
-        $finalDiscount = $disCheck + $tax + $shipping;
-        @endphp
 
         <div class="bottomEntry">
             <div class="finalEntry">
                 <div>Total:</div>
-                <div>{{ number_format($finalDiscount, 2) }}</div>
+                <div>{{ number_format($disCheck, 2)}}</div>
             </div>
         </div>
 
 
         <style>
+            .AddressCheckHead {
+
+                width: 100%;
+            }
+
             .AddressCheckHead h1 {
                 text-align: start;
             }

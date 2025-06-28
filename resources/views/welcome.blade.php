@@ -37,7 +37,7 @@
     <div class="swiper-wrapper">
 
         <div class="swiper-slide bannerImage">
-            <img src="/images/heroBanner/bannerOne.png" alt="bannerImage">
+            <img class="bannerImg" src="/images/heroBanner/bannerOne.png" alt="bannerImage">
             <div class="bannerText">
                 <div class="text">
                     <h1>glam Days</h1>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="swiper-slide bannerImage">
-            <img src="/images/heroBanner/bannerTwo.png" alt="bannerImage">
+            <img class="bannerImg" src="/images/heroBanner/bannerTwo.png" alt="bannerImage">
             <div class="bannerText1">
                 <div class="text">
                     <h1>Jewelry</h1>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="swiper-slide bannerImage">
-            <img src="/images/heroBanner/bannerThree.png" alt="bannerImage">
+            <img class="bannerImg" src="/images/heroBanner/bannerThree.png" alt="bannerImage">
             <div class="bannerText2">
                 <div class="text">
                     <h3>“Wear your heart around your neck” <br>
@@ -91,7 +91,7 @@
             </div>
         </div>
         <div class="swiper-slide bannerImage">
-            <img src="/images/heroBanner/bannerFour.png" alt="bannerImage">
+            <img class="bannerImg" src="/images/heroBanner/bannerFour.png" alt="bannerImage">
             <div class="bannerText3">
                 <div class="text">
                     <h1>In every piece</h1>
@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="swiper-slide bannerImage">
-            <img src="/images/heroBanner/bannerFive.png" alt="bannerImage">
+            <img class="bannerImg" src="/images/heroBanner/bannerFive.png" alt="bannerImage">
             <div class="bannerText4">
 
             </div>
@@ -881,7 +881,7 @@
             <div class="bottomImageText">
                 <h1>Start <span style="background-color: #fff;"> your dream, right here </span>
                     Click to launch your store today</h1>
-                <a href="/blog"><button>Explore more</button></a>
+                <a href="/packages"><button>Explore more</button></a>
             </div>
 
         </div>
@@ -1128,6 +1128,47 @@
 </div>
 
 <style>
+    @media (min-width: 576px) and (max-width: 991.98px) {
+
+        .setTwo {
+            width: 24%;
+        }
+
+        .navHead {
+            display: flex;
+            flex-direction: row;
+            gap: 0px;
+            align-items: center;
+        }
+
+        .bannerImg {
+            width: 60%;
+        }
+
+        .bannerImage {
+            min-height: 65vh !important;
+
+        }
+
+        .frontBackIcon {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: #fff;
+            width: 100%;
+            height: inherit;
+            gap: 600px;
+        }
+
+
+        .navBar {
+            gap: 24px;
+
+        }
+
+    }
+
+
     .highlight {
         transition: background-color 0.3s ease;
 

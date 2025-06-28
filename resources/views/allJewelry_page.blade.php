@@ -33,16 +33,20 @@
                     </div>
                     <div class="subSec">
                         <div class="checkbox">
-
-
-                            <input type="checkbox" name="price[]" value="0-500">
-                            <input type="checkbox" name="price[]" value="500-1000">
-                            <input type="checkbox" name="price[]" value="1000-1500">
+                            <input type="checkbox" id="0-10000" name="price[]" value="0-10000">
+                            <input type="checkbox" id="10000-30000" name="price[]" value="10000-30000">
+                            <input type="checkbox" id="30000-50000" name="price[]" value="30000-50000">
+                            <input type="checkbox" id="50000-70000" name="price[]" value="50000-70000">
+                            <input type="checkbox" id="70000-100000" name="price[]" value="70000-100000">
+                            <input type="checkbox" id="100000-Above" name="price[]" value="100000-500000">
                         </div>
                         <div class="checkName">
-                            <label for="men">0-500</label>
-                            <label for="men">500-1000</label>
-                            <label for="men">1000-1500</label>
+                            <label for="0-10000">0-10000</label>
+                            <label for="10000-30000">10000-30000</label>
+                            <label for="30000-50000">30000-50000</label>
+                            <label for="50000-70000">50000-70000</label>
+                            <label for="70000-100000">70000-100000</label>
+                            <label for="100000-Above">10000-Above</label>
 
                         </div>
                     </div>
@@ -78,6 +82,7 @@
                             <input type="checkbox" name="category[]" value="Chain" id="Chain">
                             <input type="checkbox" name="category[]" value="Necklace" id="Necklace">
                             <input type="checkbox" name="category[]" value="Earnings" id="Earnings">
+                            <input type="checkbox" name="category[]" value="Others" id="Others">
 
 
                         </div>
@@ -86,6 +91,7 @@
                             <label for="Chain">Chain</label>
                             <label for="Necklace">Necklace</label>
                             <label for="Earrings">Earrings</label>
+                            <label for="Others">Others</label>
 
 
                         </div>
@@ -99,13 +105,16 @@
                     </div>
                     <div class="subSec">
                         <div class="checkbox">
+                            <input type="checkbox" name="gender[]" value="All" id="All">
                             <input type="checkbox" name="gender[]" value="Male " id="Male">
                             <input type="checkbox" name="gender[]" value="Female" id="Female">
                             <input type="checkbox" name="gender[]" value="Kids" id="kids">
+
                         </div>
                         <div class="checkName">
+                            <label for="All">All</label>
                             <label for="Male">Male</label>
-                            <label for="female">Female</label>
+                            <label for="Female">Female</label>
                             <label for="kids">Kids</label>
                         </div>
                     </div>
@@ -176,9 +185,14 @@
 
                                 </div>
                             </div>
+
+                            @php
+                            $grams = $showList->Price/9928 ;
+                            @endphp
+
                             <div class="jewelsPrice ">
                                 <h4>{{$showList->Wish_name}}</h4>
-                                <h1>{{$showList->Price}}</h1>
+                                <h1><span>&#8377;</span>{{round($showList->Price)}}/{{ $grams }}g</h1>
                                 <p>
                                     {{$showList->Description}}
                                 </p>
