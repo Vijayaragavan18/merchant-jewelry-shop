@@ -6,7 +6,7 @@
         <div class="loginForm2">
             <div class="formDetails">
                 <h2>Forget Password</h2>
-                <div class="mb-4 text-sm text-gray-600">
+                <div class="mb-4 text-sm text-gray-600 frText">
                     {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
                 </div>
                 <!-- Session Status -->
@@ -115,6 +115,73 @@
         padding: 15px 0px 15px 0px;
         background-color: #5F1107;
         position: static !important;
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+
+        .logImg {
+            display: none;
+        }
+
+        .formDetails {
+            display: flex;
+            align-items: self-start;
+            justify-content: space-between;
+            flex-direction: column;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .emailInput {
+            border: none;
+            border-bottom-width: medium;
+            border-bottom-style: none;
+            border-bottom-color: currentcolor;
+            background-color: transparent;
+            border-bottom: solid .5px #b06022;
+            color: #5F1107;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .frText {
+            text-align: justify;
+        }
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF;
+        }
     }
 </style>
 

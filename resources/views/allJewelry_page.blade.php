@@ -10,12 +10,197 @@
 
 </div>
 
+<div class="filterMObileSec">
+    <h3 style="font-size: 25px;">Filter : </h3> <i class="fa-solid fa-filter filterIcon filterMobile"></i>
+</div>
 
+<div class=" filterBar">
+    <div class="filterBarLaunch">
+        <div class="filterMobileSec">
+            <form action="{{ route('views.allJewelry') }}" method="get">
+                <div class="filterSection">
+                    <div class="filterHead">
+                        <h1>Filter</h1>
+                        <a class="allBtn" href="{{ route( 'views.allJewelry') }}" style=" text-decoration: none;">
+                            All
+                        </a>
+                    </div>
+
+                    <div class="filterDetails">
+                        <div class="subArea">
+
+                            <div class="head2">
+                                <span class="title">Price Range</span>
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="subSec">
+                                <div class="checkbox">
+                                    <input type="checkbox" id="0-10000" name="price[]" value="0-10000">
+                                    <input type="checkbox" id="10000-30000" name="price[]" value="10000-30000">
+                                    <input type="checkbox" id="30000-50000" name="price[]" value="30000-50000">
+                                    <input type="checkbox" id="50000-70000" name="price[]" value="50000-70000">
+                                    <input type="checkbox" id="70000-100000" name="price[]" value="70000-100000">
+                                    <input type="checkbox" id="100000-Above" name="price[]" value="100000-500000">
+                                </div>
+                                <div class="checkName">
+                                    <label for="0-10000">0-10000</label>
+                                    <label for="10000-30000">10000-30000</label>
+                                    <label for="30000-50000">30000-50000</label>
+                                    <label for="50000-70000">50000-70000</label>
+                                    <label for="70000-100000">70000-100000</label>
+                                    <label for="100000-Above">100000-Above</label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subArea">
+
+                            <div class="head2">
+                                <span class="title">Material</span>
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="subSec">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="material[]" value="Gold" id="gold">
+                                    <input type="checkbox" name="material[]" value="Diamond" id="Diamond">
+                                    <input type="checkbox" name="material[]" value="Platinum" id="Platinum">
+                                </div>
+                                <div class="checkName">
+                                    <label for="gold">Gold</label>
+                                    <label for="Diamond">Diamond</label>
+                                    <label for="Platinum">Platinum</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subArea">
+
+                            <div class="head2">
+                                <span class="title">All Jewellerys</span>
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="subSec">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="category[]" value="Ring" id="Ring">
+                                    <input type="checkbox" name="category[]" value="Chain" id="Chain">
+                                    <input type="checkbox" name="category[]" value="Necklace" id="Necklace">
+                                    <input type="checkbox" name="category[]" value="Earnings" id="Earnings">
+                                    <input type="checkbox" name="category[]" value="Others" id="Others">
+
+
+                                </div>
+                                <div class="checkName">
+                                    <label for="Ring">Ring</label>
+                                    <label for="Chain">Chain</label>
+                                    <label for="Necklace">Necklace</label>
+                                    <label for="Earrings">Earrings</label>
+                                    <label for="Others">Others</label>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="subArea">
+
+                            <div class="head2">
+                                <span class="title">Gender</span>
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="subSec">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="gender[]" value="All" id="All">
+                                    <input type="checkbox" name="gender[]" value="Male " id="Male">
+                                    <input type="checkbox" name="gender[]" value="Female" id="Female">
+                                    <input type="checkbox" name="gender[]" value="Kids" id="kids">
+
+                                </div>
+                                <div class="checkName">
+                                    <label for="All">All</label>
+                                    <label for="Male">Male</label>
+                                    <label for="Female">Female</label>
+                                    <label for="kids">Kids</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="allBtn" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="closeFilterMobile"><button class="closeFilter">Close</button></div>
+    </div>
+</div>
+
+
+
+
+
+<style>
+    .filterMObileSec {
+        display: none;
+    }
+
+    .filterBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        backdrop-filter: blur(5px);
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease;
+        z-index: 10;
+    }
+
+    .filterBarLaunch {
+        gap: 10px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: scale(0.7);
+        transition: transform 0.4s ease;
+        background-color: aliceblue;
+        border-radius: 5px;
+        width: 70%;
+    }
+
+    .filterActive {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .filterActive .filterBarLaunch {
+        transform: scale(1);
+    }
+</style>
+<script>
+    const launchFilterSec = document.querySelector('.filterMobile');
+    const filterOverLaySec = document.querySelector('.filterBar');
+    launchFilterSec.addEventListener('click', () => {
+        console.log("its click");
+
+        filterOverLaySec.classList.add('filterActive');
+
+
+    });
+
+    const closeFilterBtn = document.querySelector('.closeFilter');
+    closeFilterBtn.addEventListener('click', () => {
+        filterOverLaySec.classList.remove('filterActive');
+    });
+</script>
 
 <div class="jewelsDetails">
 
 
-    <form action="{{ route('views.allJewelry') }}" method="get">
+    <form class="deskTopSec" action="{{ route('views.allJewelry') }}" method="get">
         <div class="filterSection">
             <div class="filterHead">
                 <h1>Filter</h1>
@@ -46,7 +231,7 @@
                             <label for="30000-50000">30000-50000</label>
                             <label for="50000-70000">50000-70000</label>
                             <label for="70000-100000">70000-100000</label>
-                            <label for="100000-Above">10000-Above</label>
+                            <label for="100000-Above">100000-Above</label>
 
                         </div>
                     </div>
@@ -66,7 +251,7 @@
                         <div class="checkName">
                             <label for="gold">Gold</label>
                             <label for="Diamond">Diamond</label>
-                            <label for="platinum">Platinum</label>
+                            <label for="Platinum">Platinum</label>
                         </div>
                     </div>
                 </div>
@@ -145,7 +330,7 @@
                     @if ($packageUser && in_array($packageUser->plan_id, [1,2, 3]))
 
                     <a href="/wish/productDetailAdd" id="newCart" class="addCard">
-                        <button>New card</button>
+                        <button>Add Product</button>
                     </a>
                     @endif
 
@@ -178,7 +363,7 @@
 
                                     @if (! $packageUser || ! in_array($packageUser->plan_id, [1, 2, 3]))
                                     <div class="addCard">
-                                        <div class="addBtn" onclick="addToCart('{{$showList->id}}')"><button>Add to Card</button></div>
+                                        <div class="addBtn" onclick="addToCart('{{$showList->id}}')"><button>Add to Cart</button></div>
                                     </div>
 
                                     @endif
@@ -431,7 +616,9 @@
         justify-content: center;
 
     } */
-
+    .filterMObile {
+        display: flex;
+    }
 
 
     .jewelsImageDetails {
@@ -529,6 +716,250 @@
 
     .hide {
         display: none;
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+
+
+        .jewelsHead {
+            width: 88%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 50px;
+            gap: 20px;
+        }
+
+        .jewelsHead p {
+            font-size: 14px;
+            font-weight: 200;
+        }
+
+
+        .filterSection {
+            margin-top: 74px;
+            width: 210px;
+            display: grid;
+            gap: 25px;
+            padding-left: 23px;
+        }
+
+        .filterDetails {
+            padding-left: 0;
+            display: grid;
+            gap: 53px;
+        }
+
+        .head2 {
+            width: 80%;
+            display: grid;
+            grid-auto-columns: auto auto;
+            grid-template-columns: auto auto;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .allBtn {
+
+            margin-left: 5px;
+        }
+
+        .jewelsHead h1 {
+            font-size: 35px;
+            font-weight: lighter;
+        }
+
+        .filterHead h1 {
+            font-size: 38px;
+            text-align: left;
+        }
+
+        .jewelsImgSec {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+
+        .jewelsImageDetails {
+            padding-top: 27px;
+        }
+
+        .jewelrySec {
+            display: grid;
+            margin-top: 75px;
+            align-items: start;
+            gap: 18px;
+        }
+
+        .subSec {
+            height: 0;
+            display: flex;
+            margin-left: 12px;
+            gap: 12px;
+            transition: all 0.5s linear;
+            -webkit-transition: all 0.2s linear;
+            -moz-transition: all 0.2s linear;
+            -ms-transition: all 0.2s linear;
+            -o-transition: all 0.2s linear;
+        }
+    }
+
+
+    @media only screen and (max-width: 480px) {
+
+        .deskTopSec {
+
+            display: none;
+        }
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF;
+        }
+
+
+        .filterMObile {
+            display: flex;
+
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .filterIcon {
+            font-size: 30px;
+            color: #5f1107;
+            cursor: pointer;
+        }
+
+        .filterMObileSec {
+            display: flex;
+
+            justify-content: center;
+            margin-top: 20px;
+            gap: 8px;
+
+        }
+
+        .filterSection {
+            margin-top: auto;
+            width: 278px;
+            display: grid;
+            gap: 11px;
+        }
+
+        .filterBarLaunch {
+            gap: 10px;
+            padding: 11px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.7);
+            transition: transform 0.4s ease;
+            background-color: aliceblue;
+            border-radius: 5px;
+            width: 70%;
+        }
+
+        .closeFilter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            background-color: #5F1107;
+            border: none;
+            width: 120px;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .hrLine {
+            display: none;
+
+        }
+
+        .jewelsHead {
+            width: 88%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            flex-direction: column;
+            margin-left: 0;
+        }
+
+        .jewelsImgSec {
+            display: grid;
+            grid-template-columns: auto;
+
+        }
+
+        .jewelrySec {
+            display: flex;
+            margin-top: 20px;
+            flex-direction: column;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .closeFilterMobile {
+            width: 100%;
+
+            margin-left: 115px;
+            padding: 20px;
+        }
+
+        .filterDetails {
+            padding-left: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .jewelsHead p {
+            font-size: 16px;
+            font-weight: 200;
+            text-align: justify;
+
+        }
+
+
     }
 </style>
 

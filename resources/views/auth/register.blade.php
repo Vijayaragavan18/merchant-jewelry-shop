@@ -259,6 +259,126 @@
         background-color: #5F1107;
         position: static !important;
     }
+
+
+
+
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+
+        .loginForm2 {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .validTags {
+            width: 90%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 5px;
+        }
+
+
+    }
+
+
+
+
+
+
+    @media only screen and (max-width: 480px) {
+
+        .logImg {
+            display: none;
+
+        }
+
+
+
+        .validTags {
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0px;
+            flex-direction: column;
+        }
+
+        .formDetails h2,
+        h4,
+        label {
+            color: #5F1107;
+            font-size: 14px;
+        }
+
+        .formDetails a {
+            color: #b06022;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .loginForm {
+            width: 84%;
+            min-height: 60vh;
+            background-color: #fff0;
+            padding: 10px 0px;
+            border-radius: 7px;
+            box-shadow: 0px 4px 28px 0px rgba(0, 0, 0, 0.48);
+        }
+
+        .formDetails {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+            min-height: 50vh;
+            padding: 10px;
+        }
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF;
+        }
+
+        .regSec {
+            display: flex;
+            padding-top: 2px;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+    }
 </style>
 
 

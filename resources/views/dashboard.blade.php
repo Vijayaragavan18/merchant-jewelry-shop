@@ -25,6 +25,7 @@
                     @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
                     <h3>Orders received from users:</h3>
 
+
                     @php
 
                     $subtotal = 0;
@@ -52,7 +53,7 @@
                     $discounts = 0;
 
                     if ($coupon && isset($coupon['discount_percent'])) {
-                    $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+                    $discounts = ($coupon['discount_percent'] / 100) * $gstMinus;
                     }
 
                     $shipping = 99;
@@ -68,7 +69,7 @@
                     @foreach ($cartContent as $item)
                     @php
                     $userAddress = $addresses[$item->user_id] ?? null;
-                    $calPrice = $item->OrderPrice/9928;
+
 
 
 
@@ -77,102 +78,212 @@
                     @endphp
                     @endforeach
 
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style=" width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">S.No</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Client Name</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Product</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Qty</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Price</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Subtotal</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Final Price (With Tax 18%)</th>
+                                </tr>
+                            </thead>
+                            @foreach ($cartContent as $item)
+                            @php
+                            $calPrice = $item->OrderPrice/9928;
+                            @endphp
+                            <tbody>
 
-                    <table style=" width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
-                        <thead style="background-color: #f2f2f2;">
-                            <tr>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">S.No</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Product</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Qty</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Price</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Subtotal</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Final Price (With Tax%)</th>
-                            </tr>
-                        </thead>
-                        @foreach ($cartContent as $item)
-                        <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->Client_name }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ $item->Material }}
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ $item->OrderPrice*$item->orderQty }}
+                                    </td>
+                                </tr>
 
-                            <tr>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->Material }}
-                                </td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->OrderPrice*$item->orderQty }}
-                                </td>
-                            </tr>
+                            </tbody>
+                            @endforeach
 
-                        </tbody>
-                        @endforeach
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ number_format($disCheck, 2) }}
+                                    </td>
+                                </tr>
+                            </tfoot>
 
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ number_format($disCheck, 2) }}
-                                </td>
-                            </tr>
-                        </tfoot>
-
-                    </table>
+                        </table>
+                    </div>
+                    @php
+                    $ordersByUser = $cartContent->groupBy('user_id');
 
 
+
+
+                    @endphp
+
+                    @foreach ($ordersByUser as $userId => $orders)
+                    @php
+
+                    $userAddress = $addresses[$userId] ?? null;
+
+                    $myId = auth()->id();
+                    $latestStatus = \App\Models\UserOrder::where('wishlist_id', $myId)
+                    ->where('user_id', $userId)
+                    ->orderBy('created_at', 'desc')
+                    ->value('OrderRequest');
+
+                    @endphp
                     @if ($userAddress)
 
                     <h4>Address for {{ $userAddress->name }}</h4>
-                    <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
-                        <thead style="background-color: #f2f2f2;">
-                            <tr>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Email</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Phone</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Address</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Pin Code</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Payment Type</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->name }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->email }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->phone_number }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->address }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->pincode }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->payment_type }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
-                                    @php
-                                    $address = $addresses->first();
-                                    @endphp
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Email</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Phone</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Address</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Pin Code</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Payment Type</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                    @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
 
-                                    <button style="padding: 6px 12px; background-color: rgb(145, 255, 0); color: white; text-decoration: none; border-radius: 4px;">
-                                        Order Confirm
-                                    </button>
-                                    @else
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->name }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->email }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->phone_number }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->address }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->pincode }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->payment_type }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
 
-                                    @if ($address)
-                                    <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
-                                        Edit
-                                    </button>
-                                    @endif
-                                    @endif
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                                        @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
+
+                                        <div class="orderRequest">
+                                            <h1>Order Request</h1>
+                                            <div class="orderRequest">
+
+                                                @if ($latestStatus === 'Under Review')
+
+                                                <form action="{{ route('views.orderAccept') }}" method="post" style="display:inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="order_id" value="{{ $userId }}">
+                                                    <button type="submit" style="padding: 4px 10px; font-size: 13px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                                        Accept
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('views.orderCancel') }}" method="post" style="display:inline;">
+                                                    @csrf
+                                                    <input type="hidden" name="order_id" value="{{ $userId }}">
+                                                    <button type="submit" style="padding: 4px 10px; font-size: 13px; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                                @elseif ($latestStatus === 'orderAccept')
+                                                <h4 style="color: green; font-size: 14px;">Accepted</h4>
+                                                @elseif ($latestStatus === 'Cancel Order')
+                                                <h4 style="color: red; font-size: 14px;">Cancelled</h4>
+                                                @endif
+
+
+                                            </div>
+                                        </div>
+                                        <style>
+                                            .requestForm {
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: space-evenly;
+                                            }
+
+
+                                            .orderRequest {
+                                                display: grid;
+                                                gap: 20px;
+                                            }
+
+                                            .acceptLink {
+
+                                                color: #075f0c;
+                                                background-color: white;
+                                                display: inline-flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                padding: 5px 10px;
+                                                font-size: 15px;
+                                                font-weight: 600;
+                                                border: none;
+                                                width: 120px;
+                                                border-radius: 0.5rem;
+                                                cursor: pointer;
+                                                transition: background-color 0.3s ease, transform 0.2s ease;
+                                                text-decoration: none;
+                                                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+
+                                            }
+
+                                            .cancelLink {
+                                                color: #fff;
+                                                background-color: #bf0000;
+                                                display: inline-flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                padding: 5px 10px;
+                                                font-size: 15px;
+                                                font-weight: 600;
+                                                border: none;
+                                                width: 120px;
+                                                border-radius: 0.5rem;
+                                                cursor: pointer;
+                                                transition: background-color 0.3s ease, transform 0.2s ease;
+                                                text-decoration: none;
+                                                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+                                            }
+                                        </style>
+                                        @else
+                                        @php
+                                        $address = $addresses->first();
+                                        @endphp
+                                        @if ($address)
+                                        <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
+                                            Edit
+                                        </button>
+                                        @endif
+                                        @endif
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                     @else
                     @foreach ($cartContent as $item)
                     <p><strong>No address found for user ID {{ $item->user_id }}</strong></p>
                     @endforeach
                     @endif
-
+                    @endforeach
 
                     @endif
+
+
+
                     @endif
 
 
@@ -211,7 +322,7 @@
                     $discounts = 0;
 
                     if ($coupon && isset($coupon['discount_percent'])) {
-                    $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+                    $discounts = ($coupon['discount_percent'] / 100) * $gstMinus;
                     }
 
                     $shipping = 99;
@@ -223,96 +334,118 @@
 
 
 
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style=" width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">S.No</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Product</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Qty</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Price</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Subtotal</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Final Price (With Tax%)</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Order Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                    <table style=" width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
-                        <thead style="background-color: #f2f2f2;">
-                            <tr>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">S.No</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Product</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Qty</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Price</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Subtotal</th>
-                                <th style="border: 1px solid #ddd; padding: 10px; text-align: left;">Final Price (With Tax%)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($cartContent as $item)
-                            @php
-                            $calPrice = $item->OrderPrice/9928;
-                            @endphp
+                                @foreach ($cartContent as $item)
 
-                            <tr>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->Material }}
-                                </td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ $item->OrderPrice*$item->orderQty  }}
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">
-                                    ₹{{ number_format($disCheck, 2) }}
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
 
+
+                                @php
+                                $calPrice = $item->OrderPrice/9928;
+                                @endphp
+
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $loop->iteration }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderUser }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $item->orderQty }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">₹{{ $item->OrderPrice }}/{{ $calPrice }}g</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ $item->Material }}
+                                    </td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ $item->OrderPrice*$item->orderQty  }}
+                                    </td>
+
+                                    @if ($item->OrderRequest =="Under Review")
+                                    <td style="border: 1px solid #ddd; padding: 10px; ">
+                                        <button style="padding: 4px 10px; font-size: 13px; background-color:rgb(1, 164, 170); color: white; border: none; border-radius: 4px; cursor: pointer;"> {{ $item->OrderRequest  }}</button>
+                                    </td>
+                                    @elseif($item->OrderRequest =="orderAccept")
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        <button style="padding: 4px 10px; font-size: 13px; background-color:rgb(11, 163, 19); color: white; border: none; border-radius: 4px; cursor: pointer;"> {{ $item->OrderRequest  }}</button>
+                                    </td>
+                                    @else
+                                    <td style="border: 1px solid #ddd; padding: 10px; ">
+                                        <button style="padding: 4px 10px; font-size: 13px; background-color:rgb(255, 0, 0); color: white; border: none; border-radius: 4px; cursor: pointer;"> {{ $item->OrderRequest  }}</button>
+                                    </td>
+                                    @endif
+
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;"><strong>Total:</strong></td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">
+                                        ₹{{ number_format($disCheck, 2) }}
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     @if ($addresses->isNotEmpty())
                     @php $userAddress = $addresses->first(); @endphp
+                    <div style="overflow-x: auto; width: 100%;">
+                        <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
+                            <thead style="background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Email</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Phone</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Address</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Pin Code</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Payment Type</th>
+                                    <th style="border: 1px solid #ddd; padding: 10px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->name }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->email }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->phone_number }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->address }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->pincode }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->payment_type }}</td>
+                                    <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
 
-                    <table style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
-                        <thead style="background-color: #f2f2f2;">
-                            <tr>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Name</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Email</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Phone</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Address</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Pin Code</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Payment Type</th>
-                                <th style="border: 1px solid #ddd; padding: 10px;">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->name }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->email }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->phone_number }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->address }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->pincode }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px;">{{ $userAddress->payment_type }}</td>
-                                <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">
+                                        @php
+                                        $address = $addresses->first();
+                                        @endphp
 
-                                    @php
-                                    $address = $addresses->first();
-                                    @endphp
+                                        @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
 
-                                    @if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3]))
+                                        <button style="padding: 6px 12px; background-color: rgb(38, 0, 255); color: white; text-decoration: none; border-radius: 4px;">
+                                            Order Confirm
+                                        </button>
+                                        @else
 
-                                    <button style="padding: 6px 12px; background-color: rgb(145, 255, 0); color: white; text-decoration: none; border-radius: 4px;">
-                                        Order Confirm
-                                    </button>
-                                    @else
-
-                                    @if ($address)
-                                    <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
-                                        Edit
-                                    </button>
-                                    @endif
-                                    @endif
+                                        @if ($address)
+                                        <button class="addAddress" style="padding: 6px 12px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px;">
+                                            Edit
+                                        </button>
+                                        @endif
+                                        @endif
 
 
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     @else
                     <p><strong>No address found.</strong></p>
                     @endif
@@ -360,7 +493,7 @@
                             <option value="COD" {{ $address->payment_type == 'COD' ? 'selected' : '' }}>COD</option>
                         </select>
 
-                        <button class="sumBtn" type="submit">Continue</button>
+                        <button class="sumBtn" type="submit">Save</button>
                     </form>
                     @endif
                     @endif
@@ -436,6 +569,11 @@
 
 
     <style>
+        .orderRequest {
+            display: grid;
+            gap: 10px;
+        }
+
         .merchatHead h1 {
             color: #5F1107;
             font-size: 40px;
@@ -488,7 +626,7 @@
             font-size: 15px;
             font-weight: 600;
             color: #fff;
-            background-color: #5F1107;
+            background-color: rgb(35, 107, 2);
             border: none;
             width: 120px;
             border-radius: 0.5rem;
@@ -640,6 +778,55 @@
         .checkCartTwo {
             width: 900px !important;
             height: 18vh !important;
+
+        }
+
+
+
+        @media only screen and (max-width: 480px) {
+
+            .pays {
+                background-color: #5F1107;
+                width: auto;
+                padding: 10px;
+                color: #ffff;
+                border: none;
+                border-radius: 7px;
+                outline: none;
+                font-size: 16px;
+            }
+
+            .enterAddress input {
+                background-color: #5F1107;
+                width: auto;
+                padding: 10px;
+                color: #ffff;
+                border: none;
+                border-radius: 7px;
+                outline: none;
+                font-size: 18px;
+                font-weight: 200;
+            }
+
+            .launcAdd {
+                gap: 10px;
+                padding: 17px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: scale(0.7);
+                transition: transform 0.4s ease;
+                background-color: aliceblue;
+                border-radius: 5px;
+                width: 101%;
+                margin: 10px;
+            }
+
+            .imageAddress {
+                display: none;
+            }
+
 
         }
     </style>

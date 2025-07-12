@@ -10,7 +10,7 @@
     <div class="showBlog">
         <div class="headContent">
             <h1>{{$showBlogs->name}}</h1>
-            <h6>{{ $showBlogs->updated_at->format('d M Y') }}</h6>
+            <h6>Created At: {{ $showBlogs->updated_at->format('d M Y') }}</h6>
 
         </div>
         <div class="blogImage"><img src="/uploads/{{$showBlogs->image}}" alt="blog one"></div>
@@ -142,6 +142,70 @@
 
     .blogImage {
         width: 500px;
+    }
+
+
+
+
+
+    @media only screen and (max-width: 480px) {
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF !important;
+        }
+
+        /* navEnd */
+        .showBlog h1 {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .blogImage {
+            width: 100%;
+        }
+
+        .showBlog {
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 0px 40px 0px;
+            gap: 20px;
+            width: 84%;
+        }
+
+        .headContent {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: column;
+        }
+
+        .showBlog p {
+            text-align: justify;
+            font-size: 14px;
+        }
+
     }
 </style>
 

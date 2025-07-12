@@ -62,7 +62,7 @@
                         <h1>
                             {{Str::limit ($myBlogs->name , 30)}}
                         </h1>
-                        <h5>{{ $myBlogs->updated_at->format('d M Y') }}</h5>
+                        <h5>Created At: {{ $myBlogs->updated_at->format('d M Y') }}</h5>
                         <p>{{ Str::limit($myBlogs->description, 35) }}</p>
                     </div>
                 </div>
@@ -266,5 +266,40 @@
         padding-bottom: 15px;
         background-color: #5F1107;
         position: static !important;
+    }
+
+
+    @media only screen and (max-width: 480px) {
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF !important;
+        }
+
+        /* navEnd */
+
+
+
+
+
     }
 </style>

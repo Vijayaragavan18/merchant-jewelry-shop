@@ -1,7 +1,7 @@
 @extends('layouts/master')
 @section('center')
 
-<div class="swiper mySwiper heroBanner">
+<div class="swiper mySwiper  heroBanner">
 
     <style>
         .swiper-slide {
@@ -34,7 +34,7 @@
             position: relative;
         }
     </style>
-    <div class="swiper-wrapper">
+    <div class="swiper-wrapper deskTopSize">
 
         <div class="swiper-slide bannerImage">
             <img class="bannerImg" src="/images/heroBanner/bannerOne.png" alt="bannerImage">
@@ -44,7 +44,7 @@
                     <h3>Wide variety of daily
                         <br>wear jewelry
                     </h3>
-                    <a href="/allJewelry"><button type="button">Learn More</button></a>
+                    <a href="/allJewelry"><button type="button">See More</button></a>
 
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <h3>Girls just wanna
                         <br>have fun
                     </h3>
-                    <a href="/allJewelry"><button type="button">Learn More</button></a>
+                    <a href="/allJewelry"><button type="button">See More</button></a>
                 </div>
             </div>
             <div class="iconsRL">
@@ -80,7 +80,7 @@
                     <h3>“Wear your heart around your neck” <br>
                         Your Style, Your Statement</h3>
 
-                    <a href="/allJewelry"><button type="button">Learn More</button></a>
+                    <a href="/allJewelry"><button type="button">See More</button></a>
                 </div>
             </div>
             <div class="iconsRL">
@@ -122,6 +122,75 @@
     </div>
 
 
+
+
+
+
+
+
+
+
+    <div class="mobileRes myPhone">
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide ">
+                <img class="bannerImg" src="/images/heroBanner/WellOne.jpg" alt="bannerImage">
+                <div class="bannerText">
+                    <div class="text">
+                        <h1>glam Days</h1>
+                        <h3>Wide variety of daily
+                            <br>wear jewelry
+                        </h3>
+                        <a href="/allJewelry"><button type="button">See More</button></a>
+
+                    </div>
+                </div>
+                <div class="iconsRL">
+                    <div class="frontBackIcon">
+                        <i class="prevSec fa-solid fa-angle-left"></i>
+                        <i class="nextSec fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide ">
+                <img class="bannerImg" src="/images/heroBanner/wellTwo.png" alt="bannerImage">
+                <div class="bannerText1">
+                    <div class="text">
+                        <h1>Jewelry</h1>
+                        <h3>Girls just wanna
+                            <br>have fun
+                        </h3>
+                        <a href="/allJewelry"><button type="button">See More</button></a>
+                    </div>
+                </div>
+                <div class="iconsRL">
+                    <div class="frontBackIcon">
+                        <i class="prevSec fa-solid fa-angle-left"></i>
+                        <i class="nextSec fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide ">
+                <img class="bannerImg" src="/images/heroBanner/wellThree.png" alt="bannerImage">
+                <div class="bannerText2">
+                    <div class="text">
+                        <h3>“Wear your heart around your neck” <br>
+                            Your Style, Your Statement</h3>
+
+                        <a href="/allJewelry"><button type="button">See More</button></a>
+                    </div>
+                </div>
+                <div class="iconsRL">
+                    <div class="frontBackIcon">
+                        <i class="prevSec fa-solid fa-angle-left"></i>
+                        <i class="nextSec fa-solid fa-angle-right"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
     <div class="ourServices">
         <div class="services">
             <div class="serviceList">
@@ -148,7 +217,7 @@
 
 </div>
 
-<div class="cardSection">
+<div class="cardSection mobileHide">
 
     <div class="heading">
         <h1>Shop By <span style="font-weight:bolder;">Collection</span>
@@ -184,7 +253,7 @@
                     <h1>Mangalsutra </h1>
                 </div>
             </div>
-            <div class="card">
+            <div class="card hideOne">
                 <a href="allJewelry">
                     <div class="cardImage"><img src="/images/card4.png" alt="cardImage"></div>
                 </a>
@@ -337,14 +406,14 @@
             <p>Let your jewels tell the story of your strength</p>
             <h1>Velvet Karat</h1>
         </div>
-        <div class="cardTwo">
+        <div class="cardTwo hideOne">
             <a href="allJewelry">
                 <div class="cardTwo_image"><img src="/images/card8.png" alt="card1"></div>
             </a>
             <p>Every queen deserves her crown and her gold</p>
             <h1>Zari Charm</h1>
         </div>
-        <div class="cardTwo">
+        <div class="cardTwo hideOne">
             <a href="allJewelry">
                 <div class="cardTwo_image"><img src="/images/card2.png" alt="card1"></div>
             </a>
@@ -354,7 +423,7 @@
     </div>
 </div>
 
-<div class="sectionFour">
+<div class="sectionFour hideOne mobileHide">
     <div class="headFour">
         <h1>Top Sellers</h1>
         <p>Love the most to bought the most</p>
@@ -569,7 +638,7 @@
 
 </script>
 
-<div class="genderDetails">
+<div class="genderDetails mobileHide">
     <div class="genderHeadings">
         <h1>Shop By Gender</h1>
         <p>First-class jewelry for first-class Men, Women & Children</p>
@@ -595,7 +664,7 @@
 
                 <div class="genderText">
                     <h1>"Bold looks start with bold pieces"</h1>
-                    <button>learn more</button>
+                    <a href="/allJewelry"><button>See more</button></a>
                 </div>
 
             </div>
@@ -655,7 +724,7 @@
                             <h1><i class="fa-solid fa-indian-rupee-sign"></i> 83500</h1>
                         </div>
                     </div>
-                    <div class="swiper-slide genderOne ">
+                    <!-- <div class="swiper-slide genderOne ">
                         <div class="genderScroll">
                             <img src="/images/menLast.jpg" alt="card5">
                         </div>
@@ -663,7 +732,7 @@
                             <h5>Lily Pearl Dangles</h5>
                             <h1><i class="fa-solid fa-indian-rupee-sign"></i> 83500</h1>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="scroll_icon">
                     <i class="prev fa-solid fa-angle-left"></i>
@@ -680,7 +749,7 @@
                 <img src="/images/Woman.webp" alt="men">
                 <div class="genderText">
                     <h1>"Grace is her power. Confidence is her crown"</h1>
-                    <button>learn more</button>
+                    <a href="/allJewelry"><button>See more</button></a>
                 </div>
             </div>
             <div class="iconPosition swiper mySwiperThree">
@@ -804,7 +873,7 @@
                 <img src="/images/kid.jpg" alt="men">
                 <div class="genderText">
                     <h1>"Born to sparkle"</h1>
-                    <button>learn more</button>
+                    <a href="/allJewelry"><button>See more</button></a>
                 </div>
             </div>
             <div class="iconPosition swiper mySwiperThree">
@@ -855,10 +924,12 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="scroll_icon">
                     <i class="prev fa-solid fa-angle-left"></i>
                     <i class="next fa-solid fa-angle-right"></i>
                 </div>
+
             </div>
 
         </div>
@@ -997,6 +1068,11 @@
         width: 70%;
     }
 
+
+    .mobileRes {
+        display: none;
+    }
+
     .modalOverlay {
         position: fixed;
         top: 0;
@@ -1130,15 +1206,82 @@
 <style>
     @media (min-width: 576px) and (max-width: 991.98px) {
 
+
+        .genderText {
+
+            padding: 10px 20px;
+        }
+
+
+
+        .bannerText h1,
+        .bannerText1 h1,
+        .bannerText3 h1,
+        .bannerText4 h1 {
+            font-family: "WindSong", cursive;
+            font-size: 30px;
+            color: #ffff;
+            font-weight: 200;
+        }
+
+        .heroBanner {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 0;
+            position: relative;
+            top: 0px;
+        }
+
+        .cardSection {
+            margin-top: 0;
+            display: grid;
+            gap: 20px;
+            z-index: 0;
+        }
+
+        .card .cardImage {
+            width: 221px;
+            height: 275px;
+        }
+
         .setTwo {
             width: 24%;
+        }
+
+        .logoImage {
+            width: 9%;
+        }
+
+        .searchNav {
+            width: 150px;
+        }
+
+        .searchContainer input[type="search"] {
+            width: 101px;
+            padding: 0 10px;
+            height: 29px;
+            outline: none;
+            border: none;
+            background-color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            color: #5F1107;
+            border-radius: 10px;
+            -webkit-border-radius: 10px 1px;
         }
 
         .navHead {
             display: flex;
             flex-direction: row;
-            gap: 0px;
+            gap: 20px;
             align-items: center;
+            width: 60%;
+            justify-content: space-around;
+        }
+
+        .navHead a {
+            font-size: 14px;
         }
 
         .bannerImg {
@@ -1146,8 +1289,7 @@
         }
 
         .bannerImage {
-            min-height: 65vh !important;
-
+            min-height: 100%;
         }
 
         .frontBackIcon {
@@ -1160,17 +1302,555 @@
             gap: 600px;
         }
 
-
         .navBar {
-            gap: 24px;
-
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 0px;
+            padding-top: 15px;
+            position: absolute;
+            z-index: 100;
         }
 
+        .services {
+            display: flex;
+            width: 70%;
+            justify-content: space-evenly;
+            gap: 0px;
+        }
+
+        .services h3 {
+            font-size: 16px;
+        }
+
+        .iconsRL {
+            position: absolute;
+            width: 100%;
+            height: 0px;
+        }
+
+
+        .bannerText h3,
+        .bannerText1 h3,
+        .bannerText2 h3,
+        .bannerText3 h3,
+        .bannerText4 h3 {
+            font-size: 34px;
+            color: #ffff;
+            text-align: center;
+            line-height: 115%;
+        }
+
+        .bannerText {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0rem;
+            margin-top: 0rem;
+        }
+
+        .bannerText .text,
+        .bannerText1 .text,
+        .bannerText2 .text,
+        .bannerText4 .text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .bannerText button,
+        .bannerText1 button,
+        .bannerText2 button,
+        .bannerText3 button,
+        .bannerText4 button {
+            width: 141px;
+            height: 33px;
+            background-color: transparent;
+            color: #FFF;
+            font-size: 19px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+
+        .bannerText1 {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0rem;
+            margin-top: 0rem;
+        }
+
+        .hideOne {
+            display: none !important;
+        }
+
+        .cardsTwo_details {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            align-items: center;
+            justify-content: center;
+            gap: 26px;
+        }
+
+        .buyingCards .cards {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            gap: 22px;
+        }
+
+        .menSection {
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .genderPhoto {
+            width: 80%;
+            border-radius: 10px;
+            box-shadow: 0px 4px 28px 0px rgba(0, 0, 0, 0.75);
+            display: flex;
+            position: relative;
+            z-index: 8;
+            left: 2rem;
+            background-color: white;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+        }
+
+        .genderScroll {
+            width: auto;
+            height: auto;
+        }
+
+
+        .mySwiperThree .swiper-wrapper {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            transition-property: transform;
+            transition-timing-function: var(--swiper-wrapper-transition-timing-function, initial);
+            box-sizing: content-box;
+            gap: 20px;
+            width: 700px;
+            align-items: center;
+        }
+
+        .launchImage {
+            width: 75%;
+            height: auto;
+        }
+
+        .timingSection {
+            display: grid;
+            grid-template-columns: auto auto auto auto;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .launchedDetails {
+            width: 45%;
+            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .launchImage {
+            width: 50%;
+            height: auto;
+        }
+
+        .launchBanner {
+            display: flex;
+
+            align-items: center;
+            gap: 0px;
+            width: 100%;
+            justify-content: space-evenly;
+        }
+
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .footerText p {
+            font-size: 20px;
+            color: aliceblue;
+        }
+
+        .scroll_icon {
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 100;
+            bottom: 9rem;
+        }
     }
 
 
     .highlight {
         transition: background-color 0.3s ease;
+
+    }
+
+
+
+
+    @media only screen and (max-width: 480px) {
+
+
+        .deskTopSize {
+            display: none;
+        }
+
+        .mobileRes {
+            display: flex;
+        }
+
+        .frontBackIcon {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            color: #fff;
+            width: 100%;
+            height: inherit;
+            gap: 60%;
+        }
+
+        .iconsRL {
+            position: absolute;
+            width: 100%;
+            height: auto;
+        }
+
+        .bannerText {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: end;
+            justify-content: end;
+            margin-right: 0;
+            margin-top: auto;
+        }
+
+        .bannerText h1,
+        .bannerText1 h1,
+        .bannerText3 h1,
+        .bannerText4 h1 {
+            font-family: "WindSong", cursive;
+            font-size: 34px;
+            color: #ffff;
+            font-weight: 200;
+        }
+
+        .bannerText {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0;
+            margin-top: auto;
+        }
+
+        .bannerText h3,
+        .bannerText1 h3,
+        .bannerText2 h3,
+        .bannerText3 h3,
+        .bannerText4 h3 {
+            font-size: 54px;
+            color: #ffff;
+            text-align: center;
+            line-height: 115%;
+        }
+
+        .bannerText button,
+        .bannerText1 button,
+        .bannerText2 button,
+        .bannerText3 button,
+        .bannerText4 button {
+            width: 143px;
+            height: 39px;
+            background-color: transparent;
+            color: #FFF;
+            font-size: 19px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+        }
+
+        .services .serviceList h3 {
+            line-height: 100%;
+            text-align: center;
+        }
+
+        .services .serviceList {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+
+            flex-direction: column;
+        }
+
+
+        .services h3 {
+            font-size: 15px;
+        }
+
+        .services {
+            display: flex;
+            width: 22%;
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 28px 0px rgba(0, 0, 0, 0.75);
+            gap: 38px;
+            background-color: #ffffff;
+
+            flex-direction: column;
+            padding: 20px;
+
+            border-radius: 10px;
+        }
+
+
+        .ourServices {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            bottom: 85px;
+            z-index: 1;
+            margin-top: 50px;
+        }
+
+        .cardSection {
+            margin-top: auto;
+            display: grid;
+            gap: 55px;
+            z-index: 0;
+        }
+
+        .cardSection .heading h1 {
+            font-size: 28px;
+            padding-left: 40px;
+            color: #5F1107;
+            font-weight: normal;
+            text-align: start;
+        }
+
+        .buyingCards .cards {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            gap: 32px;
+            flex-direction: column;
+        }
+
+        .card .cardImage {
+            width: 227px;
+            height: auto;
+        }
+
+        .heading {
+            text-align: center;
+            width: 100%;
+            align-items: center;
+            display: contents;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+
+        .mobileHide {
+            display: none;
+        }
+
+        .cardsTwo_details {
+            display: grid;
+            grid-template-columns: auto;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .cardSection_two {
+            margin-top: auto;
+            display: grid;
+            gap: 70px;
+        }
+
+        .sectionTwo_heading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cardSection_two .sectionTwo_heading h1 {
+            font-size: 33px;
+
+            color: #5F1107;
+            font-weight: normal;
+            padding-left: 0px;
+        }
+
+        .cardSection_two {
+            margin-top: auto;
+            display: grid;
+            gap: 35px;
+        }
+
+        .headingThree h1 {
+            font-size: 24px;
+            color: #5F1107;
+            font-weight: normal;
+            text-align: start;
+        }
+
+        .bottomBanner {
+            margin-top: 40px;
+            display: flex;
+            gap: 35px;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .border-hover-box {
+            position: relative;
+            padding: 11px;
+            color: #000;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            line-height: 30px;
+        }
+
+        .bottomImage img {
+            border-radius: 5px;
+
+
+        }
+
+        .bottomImageText h1 {
+            font-size: 16px;
+            color: #5F1107;
+            font-weight: 200;
+        }
+
+        .launchBanner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .launchImage {
+            width: 85%;
+            height: auto;
+        }
+
+
+        .launchedHeadings h4 {
+            font-size: 33px;
+            font-weight: normal;
+            color: #5F1107;
+        }
+
+        .launchedHeadings h1 {
+            font-size: 24px;
+        }
+
+        .genderHeadings {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-left: 0px;
+        }
+
+        .genderHeadings p {
+            text-align: center;
+        }
+
+        .newLaunch {
+            margin-top: 100px;
+            display: grid;
+            gap: 40px;
+        }
+
+        .genderHeadings h1 {
+            font-size: 35px;
+            color: #5F1107;
+            font-weight: normal;
+            text-align: center;
+
+        }
+
+        .faqs {
+            margin-left: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+
+        .bannerText1 {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-left: 0;
+            margin-top: 0;
+        }
+
+
+        .bannerText2 {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-left: 0;
+            margin-top: 0;
+            padding: 5px;
+        }
+
 
     }
 </style>

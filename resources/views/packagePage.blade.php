@@ -225,12 +225,12 @@
 
 
     .footerText p {
-        font-size: 18px !important;
+        font-size: 18px;
         color: aliceblue;
     }
 
     .linkImage {
-        width: 170px !important;
+        width: 170px;
     }
 
     .navBar {
@@ -267,6 +267,117 @@
     .packages {
         width: 100%;
 
+    }
+
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        .footerText p {
+            font-size: 23px;
+            color: aliceblue;
+        }
+
+        .packPlans {
+            width: 234px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.19);
+        }
+
+        .packPlans {
+            width: 234px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.19);
+            height: 280px;
+        }
+    }
+
+
+
+
+    @media only screen and (max-width: 480px) {
+
+        .navBarMobile {
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #242424;
+            position: static !important;
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF !important;
+        }
+
+
+
+        .userPlans {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-around;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .packPlans {
+            width: 185px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.19);
+        }
+
+        .packagePlans h1 {
+            font-size: 20px;
+            color: #242424;
+        }
+
+        .packagePlans p {
+            font-size: 15px;
+        }
+
+        .footerText p {
+            font-size: 15px;
+            color: aliceblue;
+            text-align: justify;
+            width: 95%;
+        }
+
+        .footerText h2 {
+            color: aliceblue;
+            font-size: 37px;
+        }
     }
 </style>
 

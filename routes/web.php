@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 use App\models\UserAddress;
 use App\Http\Controllers\OrderController;
+use App\Models\order_request;
 use App\Models\userOrder;
 use App\Models\packageUser;
 use GuzzleHttp\Client;
@@ -90,6 +91,7 @@ Route::get('/dashboard', function () {
     $addresses = collect();
     $adminCheckOrders = UserOrder::all();
 
+
     if ($packageUser && in_array($packageUser->plan_id, [1, 2, 3])) {
 
         $orders = UserOrder::where('wishlist_id', $userId)->get();
@@ -97,7 +99,8 @@ Route::get('/dashboard', function () {
         $addresses = UserAddress::whereIn('user_id', $userIds)->get()->keyBy('user_id');
         $cartContent = $orders;
     } else {
-        $cartContent = UserOrder::where('user_id', $userId)->get();
+
+        $cartContent = UserOrder::where('user_id', $userId)->orderBy('created_at', 'desc')->get();
         $address = UserAddress::where('user_id', $userId)->latest()->first();
         $addresses = $address ? collect([$address])->keyBy('user_id') : collect();
     }
@@ -165,6 +168,8 @@ Route::post('/deleteCart', [pageController::class, 'delateCart2'])->name('views.
 
 
 
+Route::post('/order-Accept', [OrderController::class, 'orderAccept'])->name('views.orderAccept');
+Route::post('/order-cancel', [OrderController::class, 'orderCancel'])->name('views.orderCancel');
 Route::post('/dashboard', [pageController::class, 'dashEdit'])->name('views.dashEdit');
 
 Route::middleware('auth')->group(function () {

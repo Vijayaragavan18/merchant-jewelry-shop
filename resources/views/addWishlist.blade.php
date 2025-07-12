@@ -110,7 +110,7 @@
             $discounts = 0;
 
             if ($coupon && isset($coupon['discount_percent'])) {
-            $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+            $discounts = ($coupon['discount_percent'] / 100) * $gstMinus;
             }
 
             $shipping = 99;
@@ -124,8 +124,8 @@
                 <div class="cartImageDetails">
                     <div class="cartImage"><img src="/images/wishImg/{{ $whishList->image}}" alt="one"></div>
                     <div class="cartHeadings">
-                        <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{ $whishList->orderUser }}</div>
-                        <div style="font-size:16px;color: #5f11076c;">Original Price:{{ $whishList->OrderPrice }}/{{$calPrice}}g </div>
+                        <div class="nameInvoiceMb">{{ $whishList->orderUser }}</div>
+                        <div class="nameInvoiceMb2">Original Price:{{ $whishList->OrderPrice }}/{{$calPrice}}g </div>
                     </div>
                 </div>
                 <div class="divTwo">
@@ -148,7 +148,7 @@
 
 
 
-                        <div style="font-size:24px;">{{ $whishList->OrderPrice * $whishList->orderQty}}</div>
+                        <div class="invoiceMb">{{ $whishList->OrderPrice * $whishList->orderQty}}</div>
                     </div>
 
 
@@ -173,6 +173,17 @@
 
 
         <style>
+            .nameInvoiceMb {
+                font-size: 22px;
+                color: #5f1107cc;
+                margin-bottom: 5px
+            }
+
+            .nameInvoiceMb2 {
+                font-size: 16px;
+                color: #5f11076c;
+            }
+
             .AddressCheckHead {
 
                 width: 100%;
@@ -206,6 +217,9 @@
 
             }
 
+            .invoiceMb {
+                font-size: 24px;
+            }
 
             .AddressField {
 
@@ -238,6 +252,7 @@
                 display: flex;
                 align-items: self-start;
                 width: 100%;
+                gap: 20px;
             }
 
             .checkLine {
@@ -245,6 +260,17 @@
                 border: 1px solid black;
             }
 
+            .cardsTwo_details .cardTwo p,
+            h1 {
+                font-size: 15px;
+                text-align: center;
+            }
+
+            .headLineText h4 {
+                font-size: 27px;
+                font-weight: normal;
+                color: #5F1107;
+            }
 
             .backCheck {
                 background-color: #47022c;
@@ -254,6 +280,95 @@
 
             .logoImageCheck {
                 width: 90px;
+            }
+
+            @media only screen and (max-width: 480px) {
+
+                .navBarMobile {
+
+                    padding-top: 7px;
+                    padding-bottom: 5px;
+                    background-color: #47022C !important;
+                    position: static !important;
+
+                }
+
+                .cardsTwo_details .cardTwo p,
+                .navBarMobile h1 {
+                    font-size: 14px;
+                    text-align: center;
+                    color: white !important;
+                }
+
+                .menuBarIcon {
+                    color: white;
+                }
+
+                .navIconRight {
+                    font-size: 14px;
+                    color: #FFF !important;
+                }
+
+                /* Nav */
+
+                .cartImage {
+                    width: 69px;
+                    height: 78px;
+                }
+
+                .checkCartTwo {
+                    width: auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    height: 20vh;
+                }
+
+                .cartQuantityDet {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 10px;
+                    width: auto;
+                }
+
+                .invoiceMb {
+                    font-size: 14px;
+                }
+
+                .cartSectionTwo {
+                    display: flex;
+                    align-items: end;
+                    justify-content: center;
+                    flex-direction: column;
+                    gap: 20px;
+                    width: 89%;
+                    background-color: white;
+                    padding: 10px;
+                    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
+                }
+
+                .logoImageCheck {
+                    width: 43px;
+                }
+
+                .AddressField h1 {
+                    font-size: 16px;
+                    color: #47022C;
+                }
+
+                .nameInvoiceMb {
+                    font-size: 14px;
+                    color: #5f1107cc;
+                    margin-bottom: 5px;
+                }
+
+                .cartImageDetails {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 13px;
+                }
             }
         </style>
 

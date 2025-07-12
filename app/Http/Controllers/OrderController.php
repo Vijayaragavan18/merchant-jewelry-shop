@@ -4,14 +4,92 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Mail\OrderPlacedMail;
+use App\Mail\successMail;
+use App\Mail\cancelMail;
 use Illuminate\Support\Facades\Mail;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 use App\models\userOrder;
+use App\models\User;
 
 class OrderController extends Controller
 {
     // Fix case if needed (Models not models)
+
+
+
+
+
+    public function orderCancel(Request $request)
+    {
+
+
+        $request->validate([
+            'order_id' => 'required|integer',
+        ]);
+        $myId = auth()->id();
+
+        $updated = \App\Models\UserOrder::where('wishlist_id', $myId)
+            ->where('user_id', $request->order_id)
+            ->where('OrderRequest', 'Under Review')
+            ->update([
+                'OrderRequest' => 'Cancel Order'
+            ]);
+
+        $buyer = User::find($request->order_id);
+        if ($buyer) {
+
+
+            $orderDetails = [
+                'name' => $buyer->name,
+                'email' => $buyer->email,
+                'message' => 'Your order has been Cancelled by the seller...',
+            ];
+
+            Mail::to($buyer->email)->send(new cancelMail($orderDetails));
+        }
+
+
+
+
+
+        return back()->with('message', "$updated order is Canceled");
+    }
+    public function orderAccept(Request $request)
+    {
+        $request->validate([
+            'order_id' => 'required|integer',
+        ]);
+        $myId = auth()->id();
+
+        $updated = \App\Models\UserOrder::where('wishlist_id', $myId)
+            ->where('user_id', $request->order_id)
+            ->where('OrderRequest', 'Under Review')
+            ->update([
+                'OrderRequest' => 'orderAccept'
+            ]);
+
+
+        $buyer = User::find($request->order_id);
+
+
+        if ($buyer) {
+
+            $orderDetails = [
+                'name' => $buyer->name,
+                'email' => $buyer->email,
+                'message' => 'Your order has been accepted by the seller!',
+            ];
+
+            Mail::to($buyer->email)->send(new successMail($orderDetails));
+        }
+
+
+        return back()->with('message', "$updated order is success");
+    }
+
+
+
 
     public function placeOrder(Request $request)
     {
@@ -43,7 +121,7 @@ class OrderController extends Controller
         $discounts = 0;
 
         if ($coupon && isset($coupon['discount_percent'])) {
-            $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+            $discounts = ($coupon['discount_percent'] / 100) * $gstMinus;
         }
 
         $shipping = 99;
@@ -79,8 +157,11 @@ class OrderController extends Controller
             $order = new \App\Models\UserOrder;
 
             $order->user_id = auth()->id();
+
             $order->wishlist_id = $item->options['wishlist_user_id'] ?? auth()->id();
 
+            $order->Client_name = auth()->user()->name;
+            $order->OrderRequest = "Under Review";
             $order->orderUser = $item->name;
 
             $order->orderQty = $item->qty;

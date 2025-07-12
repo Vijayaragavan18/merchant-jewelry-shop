@@ -20,7 +20,7 @@
                 <h1>
                     {{$myBlogs->name}}
                 </h1>
-                <h5>{{$myBlogs->updated_at}}</h5>
+                <h5>Created At: {{$myBlogs->updated_at}}</h5>
                 <p>{{$myBlogs->description}}</p>
             </div>
         </div>

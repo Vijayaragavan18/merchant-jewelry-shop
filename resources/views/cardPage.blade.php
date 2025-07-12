@@ -11,14 +11,14 @@
     </div>
 
 
-    {{-- Display success message --}}
+
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
     </div>
     @endif
 
-    {{-- Display error message --}}
+
     @if(session('error'))
     <div class="alert alert-danger">
         {{ session('error') }}
@@ -28,7 +28,7 @@
 
 
     @if(Cart::count() > 0)
-    <!-- show cart -->
+
 
     <div class="cartSectionTwo">
 
@@ -57,11 +57,11 @@
                     <div class="cartImageDetails">
                         <div class="cartImage"><img src="/images/wishImg/{{$item->options->product_image}}" alt="one"></div>
                         <div class="cartHeadings">
-                            <div style="font-size: 22px; color:#5f1107cc; margin-bottom:5px">{{$item->name}}</div>
+                            <div class="cartNameMb">{{$item->name}}</div>
 
 
 
-                            <div style="font-size:16px;color: #5f11076c;">Original Price: {{ $item->price }}/{{$calPrice}}g</div>
+                            <div class="cartPriceOg">Original Price: {{ $item->price }}/{{$calPrice}}g</div>
                         </div>
                     </div>
                     <div class="divTwo">
@@ -94,10 +94,10 @@
 
                         </div>
                         <div onclick="delateCart('{{$item->rowId}}');"><i class="fa-solid fa-trash"></i></div>
-                        <div style="font-size:24px;">{{ $item->price*$item->qty }}/{{$calPrice*$item->qty}}g</div>
+                        <div class="cartNameMb">{{ $item->price*$item->qty }}/{{$calPrice*$item->qty}}g</div>
                     </div>
                 </div>
-
+                <!--    $discounts = ($coupon['discount_percent'] / 100) * $subtotal; -->
 
                 @php
 
@@ -115,7 +115,8 @@
                 $discounts = 0;
 
                 if ($coupon && isset($coupon['discount_percent'])) {
-                $discounts = ($coupon['discount_percent'] / 100) * $subtotal;
+                $discounts = ($coupon['discount_percent'] / 100) * $gstMinus;
+
                 }
 
                 $shipping = 99;
@@ -134,29 +135,30 @@
 
             <div class="bottomEntry">
                 <div class="finalEntry">
-                    <div>Delivery:</div>
-                    <div class="off">99rs</div>
-                </div>
-                <div class="finalEntry">
-                    <div>Off!!:</div>
-                    <div>10%</div>
-                </div>
-                <div class="finalEntry">
-                    <div>GSD%:</div>
-                    <div>18%</div>
+                    <div class="gstMb">GST%:</div>
+                    <div class="gstMb">18%</div>
 
 
                 </div>
+
                 <div class="finalEntry">
-                    <div>Coupon:</div>
-                    <div>{{ number_format($discounts, 2) }}</div>
+                    <div class="gstMb">Offer:</div>
+                    <div class="gstMb">10%</div>
+                </div>
+                <div class="finalEntry">
+                    <div class="gstMb">Delivery:</div>
+                    <div class="gstMb" class="off">99rs</div>
+                </div>
+                <div class="finalEntry">
+                    <div class="gstMb">Coupon:</div>
+                    <div class="gstMb">{{ number_format($discounts, 2) }}</div>
 
                 </div>
 
 
                 <div class="finalEntry">
-                    <div>Total:</div>
-                    <div> {{ number_format($disCheck, 2) }}</div>
+                    <div class="gstMb">Total:</div>
+                    <div class="gstMb"> {{ number_format($disCheck, 2) }}</div>
                 </div>
 
 
@@ -197,8 +199,8 @@
 
                         <form class="enterAddress" action="{{ route('views.addAddress') }}" method="POST">
                             @csrf
-                            <input type="text" name="addName" placeholder="Enter Your Name" value="{{ old('addName') }}">
-                            <input type="text" name="addEmail" placeholder="Enter Your Email" value="{{ old('addEmail') }}">
+                            <input type="text" name="addName" placeholder="Enter Your Login Name" value="{{ old('addName') }}">
+                            <input type="text" name="addEmail" placeholder="Enter Your Login Email" value="{{ old('addEmail') }}">
                             <input type="text" name="addNumber" placeholder="Enter Your Number" value="{{ old('addNumber') }}">
                             <input type="text" name="addAddress" placeholder="Enter Your Address" value="{{ old('addAddress') }}">
                             <input type="text" name="addPinCode" placeholder="Enter Your Pincode" value="{{ old('addPinCode') }}">
@@ -241,6 +243,18 @@
             </script>
 
             <style>
+                .cartNameMb {
+                    font-size: 22px;
+                    color: #5f1107cc;
+                    margin-bottom: 5px
+                }
+
+                .cartPriceOg {
+                    font-size: 16px;
+                    color: #5f11076c;
+                }
+
+
                 .sumBtn {
                     display: inline-flex;
                     align-items: center;
@@ -621,6 +635,297 @@
     .cartImage {
         width: 110px;
         height: 110px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .headLineText {
+            display: flex;
+            align-items: start;
+            width: auto;
+        }
+
+        .cartDetails {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            height: 200px;
+            background-color: transparent;
+            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
+            padding: 10px;
+        }
+    }
+
+
+
+
+
+
+    @media only screen and (max-width: 480px) {
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #061E09 !important;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF !important;
+        }
+
+
+        .headLineText {
+            display: flex;
+            align-items: start;
+            width: auto;
+        }
+
+        .headLineText h4 {
+            font-size: 24px;
+            font-weight: normal;
+            color: #5F1107;
+        }
+
+        .cartDetails {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            height: 140px;
+            background-color: transparent;
+            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
+        }
+
+        .divTwo {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 10px;
+            padding-left: 3px;
+        }
+
+        .couponInput {
+            width: auto;
+            padding: 10px;
+            border: none;
+        }
+
+        .checkBtn,
+        .applyBtn {
+            width: 102px;
+            border: none;
+            background-color: #061E09;
+            padding: 10px;
+            color: #FFFFFF;
+            font-size: 13px;
+        }
+
+        .addAddress {
+            width: 102px;
+            border: none;
+            background-color: #0E286C;
+            border-radius: 5px;
+            padding: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .finalEntry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 84%;
+            background: transparent;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
+        }
+
+        .submitSection {
+            display: flex;
+            margin-top: auto;
+            align-items: center;
+            justify-content: end;
+            flex-direction: column;
+        }
+
+        .cartQuantity .increase,
+        .decrease {
+            background-color: #061E09;
+            width: 15px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            border-radius: 2px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cartImage {
+            width: 43px;
+            height: 46px;
+        }
+
+        .cardPriceMb {
+            font-size: 14px;
+        }
+
+        .cartDetailsTwo {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+
+        .cartSectionTwo {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            width: fit-content;
+            background-color: transparent;
+            padding: 58px 10px;
+            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.20);
+        }
+
+        .cartQuantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .cartImageDetails {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 17px;
+        }
+
+        .cartPriceOg {
+            font-size: 11px;
+            color: #5f11076c;
+        }
+
+        .cartNameMb {
+            font-size: 14px;
+            color: #5f1107cc;
+            margin-bottom: 5px;
+        }
+
+        .imageAddress {
+            display: none;
+        }
+
+        .enterAddress input {
+            background-color: #5F1107;
+            width: auto;
+            padding: 15px;
+            color: #ffff;
+            border: none;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            font-weight: 200;
+        }
+
+        .pays {
+            background-color: #5F1107;
+            width: auto;
+            padding: 10px;
+            color: #ffff;
+            border: none;
+            border-radius: 7px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .launcAdd {
+            gap: 10px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transform: scale(0.7);
+            transition: transform 0.4s ease;
+            background-color: aliceblue;
+            border-radius: 5px;
+            width: 67%;
+        }
+
+        .addAddresss {
+            width: 150px;
+            border: none;
+            background-color: #0E286C;
+            border-radius: 5px;
+            padding: 10px;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 13px;
+        }
+
+
+
+        .gstMb {
+            font-size: 12px;
+        }
+
+        .bottomEntry {
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            grid-template-columns: auto auto auto;
+        }
+
+        .finalEntry div:nth-child(2) {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
     }
 </style>
 <script>

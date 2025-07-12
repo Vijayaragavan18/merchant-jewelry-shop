@@ -253,6 +253,139 @@
         background-color: #5F1107;
         position: static !important;
     }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+
+        .loginForm2 {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .validTags {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 21px;
+        }
+
+        h4 {
+            font-size: 20px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .loginForm {
+            width: 80%;
+            min-height: 60vh;
+            background-color: #fff0;
+            padding: 0px 0px;
+            border-radius: 7px;
+            box-shadow: 0px 4px 28px 0px rgba(0, 0, 0, 0.48);
+            margin: 30px;
+        }
+    }
+
+
+
+    @media only screen and (max-width: 480px) {
+        .logImg {
+            display: none;
+        }
+
+        h4 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #5F1107;
+        }
+
+        .validTags {
+            width: 100%;
+            display: flex;
+            align-items: start;
+
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .formDetails h2,
+        h4,
+        label {
+            color: #5F1107;
+            font-size: 14px;
+        }
+
+        .formDetails a {
+            color: #b06022;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: #FFF;
+        }
+
+        .logSec {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .regSec {
+            display: flex;
+            padding-top: 1px;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+    }
 </style>
 
 

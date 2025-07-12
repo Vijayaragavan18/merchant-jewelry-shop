@@ -1,4 +1,8 @@
 
+
+
+
+
 function display() {
     const sec = document.querySelector(".sec");
     const Min = document.querySelector(".Min");
@@ -152,5 +156,26 @@ var swiper = new Swiper(".mySwiper", {
         prevEl: ".prev",
     },
 });
+var swiperPhone = new Swiper(".myPhone", {
+    spaceBetween: 0,
+    centeredSlides: true,
+    autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+    },
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    navigation: {
+        nextEl: ".nextSec",
+        prevEl: ".prevSec",
+    },
+});
+
+
+
+
+
 
 

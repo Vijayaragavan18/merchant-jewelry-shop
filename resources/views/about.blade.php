@@ -162,7 +162,7 @@
         justify-content: flex-start;
         margin-top: 0px;
         margin-right: auto;
-        margin-bottom: 60px;
+        margin-bottom: 40px;
         margin-left: auto;
     }
 
@@ -933,6 +933,250 @@
         align-items: center;
         justify-content: space-around;
         margin-top: 25px;
+    }
+
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+
+
+        .aboutOne {
+            width: 100%;
+        }
+
+        .aboutOneText {
+            width: 90%;
+            text-align: start;
+            display: flex;
+            align-items: start;
+            justify-content: start;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .aboutOneText h1,
+        .aboutTwoText h1 {
+            font-size: 23px;
+            line-height: 58px;
+            text-align: start;
+            color: #5F1107;
+        }
+
+        .aboutOneText p,
+        .aboutTwoText p {
+            font-size: 20px;
+            text-align: justify;
+            color: #5F1107;
+        }
+
+        .aboutOneSection {
+            display: grid;
+            grid-template-columns: auto auto;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px;
+        }
+
+        .aboutThreeText h1 {
+            font-size: 30px;
+            width: 695px;
+            color: #5F1107;
+            line-height: 58px;
+        }
+
+        .aboutThreeText p {
+            font-size: 16px;
+            width: auto;
+            color: #5F1107;
+            text-align: center;
+        }
+
+
+
+        .aboutThreeText {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex-direction: column;
+            margin-top: 5px;
+            margin-bottom: 40px;
+        }
+
+
+        .aboutTwo {
+            width: 90%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aboutTwoText {
+            width: 89%;
+            text-align: start;
+            display: flex;
+            align-items: start;
+            justify-content: start;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .aboutTwoSection {
+            display: grid;
+            grid-template-columns: auto auto;
+            align-items: center;
+            justify-content: space-around;
+
+            margin: 20px;
+        }
+
+        .contactInfo {
+            margin-top: 40px;
+        }
+
+        .footerDetails {
+            width: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+
+    }
+
+
+
+    @media only screen and (max-width: 480px) {
+
+        .aboutThreeText h1 {
+            font-size: 29px;
+            width: 90%;
+            color: #5F1107;
+            line-height: normal;
+        }
+
+        .aboutThreeText p {
+            font-size: 17px;
+            width: 90%;
+            color: #5F1107;
+            text-align: center;
+        }
+
+        .aboutThreeText {
+            position: relative;
+            padding: 0px;
+            color: #000;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            margin-top: 64px;
+            margin-bottom: 20px;
+        }
+
+        .aboutTwoSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            margin-top: 5px;
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .aboutHead {
+            display: flex;
+            align-items: center;
+            margin-left: 0;
+            justify-content: center;
+        }
+
+        .aboutTwoText {
+            width: 100%;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            padding: 20px;
+        }
+
+        .aboutTwo {
+            width: 85%;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navBarMobile {
+
+            padding-top: 7px;
+            padding-bottom: 5px;
+            background-color: #5F1107;
+            position: static !important;
+
+        }
+
+        .navIconRight {
+            font-size: 14px;
+            color: white !important;
+        }
+
+        .cardsTwo_details .cardTwo p,
+        .navBarMobile h1 {
+            font-size: 14px;
+            text-align: center;
+            color: white !important;
+        }
+
+        .menuBarIcon {
+            color: white;
+        }
+
+        .aboutOneText h1,
+        .aboutTwoText h1 {
+            font-size: 29px;
+            line-height: normal;
+            text-align: start;
+            color: #5F1107;
+        }
+
+        .aboutOneText {
+            width: 80%;
+            text-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .aboutOneText p,
+        .aboutTwoText p {
+            font-size: 17px;
+            text-align: justify;
+            color: #5F1107;
+        }
+
+        .aboutOneSection {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 20px;
+        }
+
+        .aboutOne {
+            width: 85%;
+        }
+
+        .aboutOneSectionOne {
+
+            display: grid;
+            gap: 20px;
+        }
     }
 </style>
 

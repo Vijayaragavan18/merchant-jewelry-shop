@@ -19,6 +19,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 use Symfony\Contracts\Service\Attribute\Required;
+use Illuminate\Support\Facades\DB;
 
 class pageController extends Controller
 {
@@ -32,26 +33,7 @@ class pageController extends Controller
 
 
 
-    // public function goldPrice()
-    // {
-    //     $url = 'https://www.goodreturns.in/gold-rates/coimbatore.html';
 
-    //     // 1. Make HTTP request
-    //     $client = new Client();
-    //     $response = $client->get($url);
-    //     $html = (string) $response->getBody();
-
-    //     // 2. Parse HTML with DomCrawler
-    //     $crawler = new Crawler($html);
-
-    //     // 3. Extract table rows
-    //     $rows = $crawler->filter('.gold_silver_table tbody tr')->each(function ($node) {
-    //         return trim($node->text());
-    //     });
-
-    //     // 4. Send to view
-    //     return view('views.dashboard', ['prices' => $rows]);
-    // }
 
 
 
@@ -293,7 +275,7 @@ class pageController extends Controller
 
 
         Cart::add(
-            $product->id, // product ID (can be wishlist ID if needed for later use)
+            $product->id,
             $product->Wish_name,
             1,
             $product->Price,
@@ -303,7 +285,7 @@ class pageController extends Controller
                 "gender" => $product->Gender,
                 "material" => $product->Material,
                 "type_of_jewel" => $product->TypeOfJewel,
-                "wishlist_user_id" => $product->user_id // ✅ send actual user_id from wishlist
+                "wishlist_user_id" => $product->user_id
             ]
         );
 
@@ -373,22 +355,16 @@ class pageController extends Controller
 
 
 
-    // public function Wish()
-    // {
-    //     $cartContent1 = Cart::content();
-    //     // dd($cartContent1);
-    //     $data['cartContent1'] = $cartContent1;
-    //     return view("addWishlist", $data);
-    // }
+
 
 
     public function applyCoupon(Request $request)
     {
         $code = $request->input('coupon_code');
 
-        // Check if the coupon is valid (you can replace this with more advanced logic)
+
         if ($code === 'ALUA10') {
-            // Store the coupon info in the session
+
             session([
                 'coupon' => [
                     'name' => $code,
@@ -396,10 +372,10 @@ class pageController extends Controller
                 ]
             ]);
 
-            // Flash success message
+
             return redirect()->back()->with('success', 'Coupon applied successfully!');
         } else {
-            // If the coupon is invalid
+
             return redirect()->back()->with('error', 'Invalid coupon code');
         }
     }
@@ -416,15 +392,11 @@ class pageController extends Controller
 
         return view('cardPage', [
             'cartContent' => $cartContent,
-            'showModal' => !$address, // true if no address
+            'showModal' => !$address,
         ]);
     }
 
-    // return view("cardPage", [
-    //     'vj' => $vj,
-    //     'addresses' => $address
 
-    // ]);
 
 
     public function updateCart(Request $request)
@@ -509,11 +481,7 @@ class pageController extends Controller
     }
 
 
-    // public function addMyWish(Request $request)
-    // {
-    //     $showWishList = App\models\wishlist::all();
-    //     return view("allJewelry_page", compact("showWishList"));
-    // }
+
 
     function Show_Blog(\App\models\blog $showBlogs)
 
@@ -553,9 +521,7 @@ class pageController extends Controller
     // }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create(App\models\blog $create)
     {
 
@@ -563,9 +529,6 @@ class pageController extends Controller
         return view('editPage', compact('create'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -676,17 +639,31 @@ class pageController extends Controller
             return redirect()->back()->with('error', 'You must be logged in.');
         }
 
-        UserAddress::updateOrCreate(
-            ['user_id' => auth()->id()], // Condition: find existing by user_id
-            [
-                'name' => $request->addName,
-                'email' => $request->addEmail,
-                'phone_number' => $request->addNumber,
-                'address' => $request->addAddress,
-                'pincode' => $request->addPinCode,
-                'payment_type' => $request->addPays,
-            ]
-        );
+
+        foreach (Cart::content() as $item) {
+
+
+
+            $address = new \App\Models\UserAddress;
+            $address->user_id = auth()->id();
+            $address->wishlist_id = $item->options['wishlist_user_id'] ?? auth()->id();
+
+            $address->name = $request->addName;
+            $address->email = $request->addEmail;
+            $address->phone_number = $request->addNumber;
+            $address->address = $request->addAddress;
+            $address->pincode = $request->addPinCode;
+            $address->payment_type = $request->addPays;
+            $address->save();
+        }
+
+
+
+
+
+
+
+
 
         return redirect()->back()->with('success', 'Address saved successfully.');
     }
@@ -698,7 +675,7 @@ class pageController extends Controller
 
     public function dashEdit(Request $request)
     {
-        // Check what is submitted
+
 
         $request->validate([
             'addName' => 'required|string|max:255',
@@ -713,15 +690,37 @@ class pageController extends Controller
             return redirect()->back()->with('error', 'You must be logged in.');
         }
 
-        $address = new UserAddress();
-        $address->user_id = auth()->id();
-        $address->name = $request->addName;
-        $address->email = $request->addEmail;
-        $address->phone_number = $request->addNumber;
-        $address->address = $request->addAddress;
-        $address->pincode = $request->addPinCode;
-        $address->payment_type = $request->addPays;
-        $address->save();
+        $wishlist_id = null;
+
+
+        foreach (Cart::content() as $item) {
+            if (!empty($item->options->wishlist_user_id)) {
+                $wishlist_id = $item->options->wishlist_user_id;
+                break;
+            }
+        }
+
+
+        $wishlist_id = $wishlist_id ?? auth()->id();
+
+
+        if (!DB::table('wishlists')->where('user_id', $wishlist_id)->exists()) {
+            $wishlist_id = null;
+        }
+
+
+        \App\Models\UserAddress::updateOrCreate(
+            ['user_id' => auth()->id()],
+            [
+                'wishlist_id' => $wishlist_id,
+                'name' => $request->addName,
+                'email' => $request->addEmail,
+                'phone_number' => $request->addNumber,
+                'address' => $request->addAddress,
+                'pincode' => $request->addPinCode,
+                'payment_type' => $request->addPays,
+            ]
+        );
 
         return redirect()->route('views.dashEdit')->with('success', 'Details Added');;
     }
@@ -733,7 +732,7 @@ class pageController extends Controller
 
     public function wishStore(Request $request)
     {
-        // Validate inputs
+
         $request->validate([
             'wishName' => 'required|string|max:255',
             'wishPrice' => 'required|string|max:255',
@@ -746,14 +745,14 @@ class pageController extends Controller
 
         ]);
 
-        // Handle image upload
+
         $imageName = time() . "_wish." . $request->file('addWishImg')->extension();
         $request->file('addWishImg')->move(public_path('images/wishImg'), $imageName);
 
         $priceCal = round($request->input(key: 'wishPrice') * 9928);
 
 
-        // Save to database
+
         $wishList = new App\models\wishlist;
         $wishList->user_id = auth()->id();
         $wishList->Wish_name = $request->input('wishName');
@@ -830,30 +829,30 @@ class pageController extends Controller
 
     public function update(Request $request, \App\Models\blog $showBlogs)
     {
-        // Validate the form data
+
         $request->validate([
             'blogName' => 'required|string|max:255',
             'blogDes' => 'required|string|min:40',
             'blogImage' => 'nullable|mimes:jpeg,jpg,png,gif|max:2048',
         ]);
 
-        // Update the blog data
+
         $data = [
             'name' => $request->input('blogName'),
             'description' => $request->input('blogDes'),
         ];
 
-        // Check if a new image was uploaded
+
         if ($request->hasFile('blogImage')) {
             $imageName = time() . "vijay." . $request->blogImage->extension();
             $request->blogImage->move(public_path('uploads'), $imageName);
-            $data['image'] = $imageName;  // Add the image to the data
+            $data['image'] = $imageName;
         }
 
-        // Update the blog
+
         $showBlogs->update($data);
 
-        // Redirect back to the blog page
+
         return redirect()->route('blog.show');
     }
 
@@ -866,7 +865,7 @@ class pageController extends Controller
      */
     public function destroy(\App\Models\blog $blog)
     {
-        // Optionally delete the image file too
+
         $imagePath = public_path('uploads/' . $blog->image);
         if (file_exists($imagePath)) {
             unlink($imagePath);
